@@ -1,0 +1,14 @@
+="User : " 
+=userid
+br
+br
+form(ref='uploadForm',id='uploadForm',action='http://localhost:8000/changeScenario',method='post',encType="multipart/form-data")
+	input(type="hidden",value=userid,name="userid")
+	select(name="scenario")
+		each scenario in scenarios
+			option(value=scenario._id)=scenario.name
+	br
+	input(type='submit',value='Assign Scenario')
+
+
+

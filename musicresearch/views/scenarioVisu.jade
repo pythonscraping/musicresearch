@@ -1,0 +1,34 @@
+head
+	title MUSIC RESEARCH
+	link(href='/ScenarioVisu.css', rel='stylesheet')
+	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+
+table(id="myTable")
+	tr
+		th DELETE
+		th name
+		th canSortLikes
+		th canSortPopularity
+		th displayRatings
+		th displayLikes
+		th displayPopularity
+		th displayTrend
+		th sortedPopularity
+		th sortedLikes
+
+		each scenario in scenarios
+			tr(id=scenario._id)
+				td(id="delete") 
+					button(value=scenario._id) DELETE
+				td(class="larger")=scenario.name
+				td(class=scenario.canSortLikes)=scenario.canSortLikes
+				td(class=scenario.canSortPopularity)=scenario.canSortPopularity
+				td(class=scenario.displayRatings)=scenario.displayRatings
+				td(class=scenario.displayLikes)=scenario.displayLikes
+				td(class=scenario.displayPopularity)=scenario.displayPopularity
+				td(class=scenario.displayTrend)=scenario.displayTrend
+				td(class=scenario.sortedPopularity)=scenario.sortedPopularity
+				td(class=scenario.sortedLikes)=scenario.sortedLikes
+
+
+script(src="/scenarioVisu.js")

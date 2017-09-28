@@ -1,0 +1,163 @@
+head
+	title MUSIC RESEARCH
+	link(href='/index.css', rel='stylesheet')
+	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+  
+
+
+
+table(id="myTable")
+	tr
+		th
+		th=""
+		th Title
+		if (displayRatings=="on")
+			th Ratings
+		if (displayLikes=="on")
+			if (canSortLikes=="on")
+				th(onclick="sortTableByLikes()") Like 
+					span(class="likeup") ↓
+					span(class="likedown") ↑
+			else 
+				th Like
+		if (displayPopularity=="on")
+			if (canSortPopularity=="on")
+				th(onclick="sortTable(4)") Popularity 
+					span(class="popup") ↓
+					span(class="popdown") ↑
+			else 
+				th Popularity
+		if (displayTrend=="on")
+			th Trend
+
+		each val in listofsongs
+			tr
+				td
+					audio(id=val._id,name=val.title)
+						source(src = val.path ,type="audio/mpeg")  
+				td
+					button(onclick="play('" + val._id + "')") 	►
+				td=val.title
+				if (displayRatings=="on")
+					td
+						if (useratings[useratings.findIndex(x => x.id== val._id)])
+							if (useratings[useratings.findIndex(x => x.id== val._id)].rating == 1)
+								div(class="score1 scores")
+									span(id="astar1",value=val._id) ★ 
+									span(id="bstar1",value=val._id) ☆ 
+									span(id="astar2",value=val._id) ★ 
+									span(id="bstar2",value=val._id) ☆ 
+									span(id="astar3",value=val._id) ★ 
+									span(id="bstar3",value=val._id) ☆ 
+									span(id="astar4",value=val._id) ★ 
+									span(id="bstar4",value=val._id) ☆ 
+									span(id="astar5",value=val._id) ★ 
+									span(id="bstar5",value=val._id) ☆
+							if (useratings[useratings.findIndex(x => x.id==val._id)].rating== 2)
+								div(class="score2 scores")
+									span(id="astar1",value=val._id) ★ 
+									span(id="bstar1",value=val._id) ☆ 
+									span(id="astar2",value=val._id) ★ 
+									span(id="bstar2",value=val._id) ☆ 
+									span(id="astar3",value=val._id) ★ 
+									span(id="bstar3",value=val._id) ☆ 
+									span(id="astar4",value=val._id) ★ 
+									span(id="bstar4",value=val._id) ☆ 
+									span(id="astar5",value=val._id) ★ 
+									span(id="bstar5",value=val._id) ☆
+							if (useratings[useratings.findIndex(x => x.id==val._id)].rating == 3)
+								div(class="score3 scores")
+									span(id="astar1",value=val._id) ★ 
+									span(id="bstar1",value=val._id) ☆ 
+									span(id="astar2",value=val._id) ★ 
+									span(id="bstar2",value=val._id) ☆ 
+									span(id="astar3",value=val._id) ★ 
+									span(id="bstar3",value=val._id) ☆ 
+									span(id="astar4",value=val._id) ★ 
+									span(id="bstar4",value=val._id) ☆ 
+									span(id="astar5",value=val._id) ★ 
+									span(id="bstar5",value=val._id) ☆
+							if (useratings[useratings.findIndex(x => x.id==val._id)].rating == 4)
+								div(class="score4 scores")
+									span(id="astar1",value=val._id) ★ 
+									span(id="bstar1",value=val._id) ☆ 
+									span(id="astar2",value=val._id) ★ 
+									span(id="bstar2",value=val._id) ☆ 
+									span(id="astar3",value=val._id) ★ 
+									span(id="bstar3",value=val._id) ☆ 
+									span(id="astar4",value=val._id) ★ 
+									span(id="bstar4",value=val._id) ☆ 
+									span(id="astar5",value=val._id) ★ 
+									span(id="bstar5",value=val._id) ☆
+							if (useratings[useratings.findIndex(x => x.id==val._id)].rating == 5)
+								div(class="score5 scores")
+									span(id="astar1",value=val._id) ★ 
+									span(id="bstar1",value=val._id) ☆ 
+									span(id="astar2",value=val._id) ★ 
+									span(id="bstar2",value=val._id) ☆ 
+									span(id="astar3",value=val._id) ★ 
+									span(id="bstar3",value=val._id) ☆ 
+									span(id="astar4",value=val._id) ★ 
+									span(id="bstar4",value=val._id) ☆ 
+									span(id="astar5",value=val._id) ★ 
+									span(id="bstar5",value=val._id) ☆
+						else
+							div(class="score0 scores")
+									span(id="astar1",value=val._id) ★ 
+									span(id="bstar1",value=val._id) ☆ 
+									span(id="astar2",value=val._id) ★ 
+									span(id="bstar2",value=val._id) ☆ 
+									span(id="astar3",value=val._id) ★ 
+									span(id="bstar3",value=val._id) ☆ 
+									span(id="astar4",value=val._id) ★ 
+									span(id="bstar4",value=val._id) ☆ 
+									span(id="astar5",value=val._id) ★ 
+									span(id="bstar5",value=val._id) ☆
+
+				if (displayLikes=="on")
+					td(numberoflikes=val.numberOfLikes)
+						div(class="likeunlike")
+							- if (arrayoflikess.indexOf(val.id) == -1 )
+								button(class="like",value=val._id) 	♥ 
+							- else 
+								button(class="unlike",value=val._id) 	♥
+							span= val.numberOfLikes.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,').toString().split(".0")[0]
+
+				if (displayPopularity=="on")
+					td(popularity=val.popularity)
+						div(class="ratings")
+							- for (var i = 1; i <= val.popularity; ++i) {
+								span(class="blackPop") | 
+							- }
+							- for (var i = val.popularity + 1; i <= 10; ++i) {
+								span(class="greyPop") | 
+							- }
+				if (displayTrend=="on")
+					td
+						if (val.trend =="up")
+							span(class="trendUp") ↑ 
+							span(class="trendUp")= val.trendValue
+						if (val.trend =="down")
+							span(class="trendDown") ↓ 
+							span(class="trendDown")= val.trendValue
+					
+
+div(id="mainplayer")
+	div(id="displayedTitle") No song played
+	button(class="playpause pause",onclick="pause()") PAUSE
+	button(class="playpause play",onclick="unpause()") PLAY
+	="     "
+	="     "
+	span(id="currentTime") 0 : 00
+	br
+	br
+	div(id="progressBar")
+		span(id="progress")
+
+
+
+form(class="abandon playpause",ref='uploadForm',action='http://localhost:8000/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
+	input(class="abandon playpause",type='submit',value='Abandon!',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
+
+
+script(src="/music.js")

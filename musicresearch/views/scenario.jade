@@ -1,0 +1,15 @@
+head
+	title CREATE SCENARIO
+	link(href='/scenario.css', rel='stylesheet')
+	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+  
+
+
+form(ref='uploadForm',id='uploadForm',action='http://localhost:8000/admin/scenario',method='post',encType="multipart/form-data")
+	input(type="text",name="name")
+	each val in TrueFalseFields
+		br
+		= val
+		input(type="checkbox",name=val) 
+	br
+	input(type='submit',value='Create Scenario')

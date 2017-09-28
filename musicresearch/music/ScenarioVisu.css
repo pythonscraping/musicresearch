@@ -1,0 +1,42 @@
+
+
+body {
+	background-color: #F5F3EE;
+	cursor:defaut;
+}
+
+
+table {
+  border-spacing: 8px;
+  border-collapse: separate;
+  text-align: center;
+  width: 100%;
+}
+
+.on {
+	background-color: #669c83 !important;
+	color:white;
+}
+
+.off {
+	background-color: #ff4c4c !important;
+	color:white;
+}
+
+button  {
+ 	margin-left: 10;
+ 	display: inline-block;
+ 	background-color: #F5F3EE;
+
+	border-radius: 25px;
+	font-size : default;
+	border:1px solid grey;
+ }
+
+ td {
+ 	width: 5px;
+ }
+
+ .larger {
+ 	min-width: 150px;
+ }
