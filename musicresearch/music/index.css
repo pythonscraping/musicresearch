@@ -4,6 +4,11 @@ th:hover {
 	 cursor:defaut ;
 }
 
+tr {
+	border-bottom: 1px solid #e2e2e2;
+    border-collapse: collapse;
+}
+
 
 body {
 	background-color: white;
@@ -32,7 +37,7 @@ body {
 }
 
 
-#mainplayer { 
+#mainplayer,.mainplayer{ 
 	position: absolute;
 	margin-left: auto;
 	margin-right: auto;
@@ -213,4 +218,8 @@ button.playpause  {
 
 .playlist:hover {
 	font-weight: bold;
+}
+
+.mainplayer{
+	display: none;
 }

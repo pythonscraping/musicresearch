@@ -15,6 +15,7 @@ table(id="myTable")
 		th Title
 		if (displayRatings=="on")
 			th Ratings
+		th=""
 		if (displayLikes=="on")
 			if (canSortLikes=="on")
 				th(onclick="sortTable('ike','numberoflikes','.likedown','.likeup')") Like 
@@ -22,6 +23,7 @@ table(id="myTable")
 					span(class="likedown") ↑
 			else 
 				th Like
+
 		if (displayPopularity=="on")
 			if (canSortPopularity=="on")
 				th(onclick="sortTable('ularity','popularity','.popdown','.popup')") Popularity 
@@ -33,12 +35,12 @@ table(id="myTable")
 			th Trend
 
 		each val in listofsongs
-			tr
+			tr(value=val._id)
 				td
 					audio(id=val._id,name=val.title)
 						source(src = val.path ,type="audio/mpeg")  
 				td
-					button(onclick="play('" + val._id + "')") 	►
+					button(onclick="play('" + val._id + "')",class="hideplayer") 	►
 				td 
 					if (playlist[playlist.findIndex(x => x.id== val._id)])
 						button(class="removeplaylist",value=val._id) ✓
@@ -123,13 +125,15 @@ table(id="myTable")
 									span(id="bstar5",value=val._id) ☆
 
 				if (displayLikes=="on")
-					td(numberoflikes=val.numberOfLikes)
+					td
 						div(class="likeunlike")
 							- if (arrayoflikess.indexOf(val.id) == -1 )
 								button(class="like",value=val._id) 	♥ 
 							- else 
-								button(class="unlike",value=val._id) 	♥
-							span= val.numberOfLikes.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,').toString().split(".0")[0]
+								button(class="unlike",value=val._id) ♥
+				td(numberoflikes=val.numberOfLikes)
+					div(class="likeunlike")
+						span= val.numberOfLikes.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,').toString().split(".0")[0]
 
 				if (displayPopularity=="on")
 					td(popularity=val.popularity)
@@ -150,7 +154,7 @@ table(id="myTable")
 							span(class="trendDown")= val.trendValue
 					
 
-div(id="mainplayer")
+div(id="mainplayer",class="hideplayer")
 	div(id="displayedTitle") No song played
 	button(class="playpause pause",onclick="pause()") PAUSE
 	button(class="playpause play",onclick="unpause()") PLAY
@@ -163,6 +167,9 @@ div(id="mainplayer")
 		span(id="progress")
 
 
+
+div(class="mainplayer")
+	p 30 seconds listening
 
 form(class="abandon playpause",ref='uploadForm',action='http://localhost:8000/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
 	input(class="abandon",type='submit',value='Abandon',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")

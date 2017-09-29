@@ -33,20 +33,13 @@ app.use(fileUpload());
 
 var User = require('./models/user.js');
 var Scenario = require('./models/scenario.js');
+var Song = require('./models/music.js')
 
 
-var musicSchema = mongoose.Schema({
-    title: String,
-    artist: {
-        type: String,
-        default: "No artist name provided"
-    },
-    path: String
-});
 
 
 //var User = mongoose.model('User', userSchema);
-var Song = mongoose.model('Song', musicSchema);
+
 //var Scenario = mongoose.model('Scenario', scenarioSchema);
 module.exports = User;
 
@@ -294,10 +287,10 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
 
 app.post('/abandon', function(req, res) {
     console.log("user abandoning");
-
     User.findOneAndRemove({
         _id: req.user._id
     }, function(err, doc) {
+        req.logout();
         res.send("Abandonned successfully");
 
     });

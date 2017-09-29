@@ -40,12 +40,32 @@ function updateProgress() {
 }
 
 
+var candoubleclick = function() {
+  $(document).on("dblclick", "tr",function() {
+  var songToPlay = $( this ).attr("value");
+  play(songToPlay);
+  });
 
+}
 
-
+candoubleclick();
 
 var play = function(id) {
+
+  $(document).off("dblclick", "tr");
+
+
   localStorage.setItem("songscount",  parseInt(localStorage.getItem("songscount")) + 1);
+
+  $(".hideplayer").css("visibility", "hidden");
+  $(".mainplayer").css("display", "initial");
+  setTimeout(function(){ 
+      $(".mainplayer").css("display", "none");
+      $(".hideplayer").css("visibility", "initial");
+
+      candoubleclick();
+
+  }, 30000);
 
   if (id) {
 
@@ -424,3 +444,5 @@ $(document).on("mouseleave",'.removeplaylist',function(){
 }
 ); 
    
+
+
