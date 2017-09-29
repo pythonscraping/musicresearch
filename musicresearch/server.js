@@ -122,6 +122,7 @@ var findSongInformation = function(err, userinfo, req, res) {
     console.log(userinfo);
     var listoflikes = userinfo.songsLiked;
     var useratings = userinfo.useratings;
+    var playlist = userinfo.playlist;
     var arrayoflikes = [];
     for (var i = 0; i < listoflikes.length; i++) {
         if (listoflikes[i].isLiked) {
@@ -175,6 +176,7 @@ var findSongInformation = function(err, userinfo, req, res) {
             canSortPopularity: userinfo.canSortPopularity,
             canSortLikes: userinfo.canSortLikes,
             arrayoflikess: arrayoflikes,
+            playlist: playlist,
             useratings: useratings
         });
 
@@ -415,6 +417,59 @@ app.get('/dbresults', function(req, res) {
 
 });
 
+
+
+
+app.post('/playlist', function(req, res) {
+    if (req.isAuthenticated()) {
+        var obj = {};
+        console.log('song to add to playlist: ' + JSON.stringify(req.body));
+
+         User.update({
+            "_id": req.user._id
+        }, {
+            $pull: {
+                'playlist': {
+                    id: req.body.id
+                }
+            }
+        }, function() {
+            User.update({
+                "_id": req.user._id,
+                "playlist.id": {
+                    $ne: req.body.id
+                }
+            }, {
+                $addToSet: {
+                    'playlist': {
+                        "id": req.body.id,
+                    }
+                }
+            }, function() {
+                res.send(req.body);
+            });
+        });
+    }
+
+});
+
+
+app.post('/removeplaylist', function(req, res) {
+    if (req.isAuthenticated()) {
+        var obj = {};
+        console.log('song to remove from playlist: ' + JSON.stringify(req.body));
+
+         User.update({
+            "_id": req.user._id
+        },
+        {$pull: {'playlist': {"id" : req.body.id} }}, function() {
+                res.send(req.body);
+            }
+
+        );
+    }
+
+});
 
 app.post('/songliked', function(req, res) {
     if (req.isAuthenticated()) {

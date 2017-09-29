@@ -206,3 +206,11 @@ button.playpause  {
  tr:not(:first-child):hover {
           background-color: #ffff99;
         }
+
+.removeplaylist:hover{
+	font-weight: bold
+}
+
+.playlist:hover {
+	font-weight: bold;
+}

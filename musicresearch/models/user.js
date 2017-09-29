@@ -15,6 +15,11 @@ var Songrated = mongoose.Schema({
     rating: Number
 });
 
+var Songsaved = mongoose.Schema({
+    id: String,
+    date: { type: Date, default: Date.now }
+});
+
 
 var userSchema = mongoose.Schema({
     id: String,
@@ -23,6 +28,7 @@ var userSchema = mongoose.Schema({
     isAdmin: Boolean,
     songsLiked: [Songliked],
     useratings: [Songrated],
+    playlist: [Songsaved],
     scenario: String,
     whereami: {
         type: String,

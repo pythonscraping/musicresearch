@@ -10,6 +10,7 @@ table(id="myTable")
 	tr
 		th
 		th=""
+		th addtoPlaylist
 		th Artist
 		th Title
 		if (displayRatings=="on")
@@ -38,6 +39,11 @@ table(id="myTable")
 						source(src = val.path ,type="audio/mpeg")  
 				td
 					button(onclick="play('" + val._id + "')") 	►
+				td 
+					if (playlist[playlist.findIndex(x => x.id== val._id)])
+						button(class="removeplaylist",value=val._id) ✓
+					else
+						button(class="playlist",value=val._id) 	+
 				td=val.artist
 				td=val.title
 				if (displayRatings=="on")

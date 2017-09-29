@@ -2,6 +2,11 @@ var CURRENTLYPLAYED = document.getElementsByTagName("audio")[0].id;
 
 
 
+if (localStorage.getItem("songscount") == undefined){
+  localStorage.setItem("songscount", 0);
+}
+
+
 function updateProgress() {
    var progress = document.getElementById("progress");
    var value = 0;
@@ -40,7 +45,10 @@ function updateProgress() {
 
 
 var play = function(id) {
+  localStorage.setItem("songscount",  parseInt(localStorage.getItem("songscount")) + 1);
+
   if (id) {
+
     oldid = CURRENTLYPLAYED;
     $("#"+oldid).parent().parent("tr").removeClass("playing");
     var old = document.getElementById(CURRENTLYPLAYED);
@@ -121,6 +129,49 @@ document.getElementById('progressBar').addEventListener('click', function (e) {
 
 
 
+$(document).on("click",'.playlist',function() {
+  var whatwasclicked = $( this ).attr("value");
+  console.log(whatwasclicked);
+  var what = $( this );
+  var data = {};
+          data.id = whatwasclicked;
+          
+          $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+                contentType: 'application/json',
+                        url: '/playlist',            
+                        success: function(data) {
+                            console.log('success');
+                            console.log(JSON.stringify(data));
+                            what.attr('class', 'removeplaylist');
+                            what.html("✓");
+                           // what.removeClass("like").addClass("unlike");
+                        }});
+});
+
+$(document).on("click",'.removeplaylist',function() {
+  var whatwasclicked = $( this ).attr("value");
+  console.log(whatwasclicked);
+  var what = $( this );
+  var data = {};
+          data.id = whatwasclicked;
+          
+          $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+                contentType: 'application/json',
+                        url: '/removeplaylist',            
+                        success: function(data) {
+                            console.log('success');
+                            console.log(JSON.stringify(data));
+
+                            what.attr('class', 'playlist');
+                            what.html("+");
+
+                           // what.removeClass("like").addClass("unlike");
+                        }});
+});
 
 $(document).on("click",'.like',function() {
   var whatwasclicked = $( this ).attr("value");
@@ -349,3 +400,27 @@ function sortTable2(table_id, sortColumn){
         }
     }
 }
+
+
+
+
+
+$(document).on("mouseover",'.removeplaylist',function(){
+
+console.log("test");
+  if($( this ).hasClass("removeplaylist")) {
+    $( this ).html( "-" ); }
+
+}
+); 
+
+
+$(document).on("mouseleave",'.removeplaylist',function(){
+
+ if($( this ).hasClass("removeplaylist")) {
+       $( this ).html("✓");
+    }
+
+}
+); 
+   
