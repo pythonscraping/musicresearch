@@ -195,16 +195,30 @@ var SORTINGORDERPOP = true;
 
 
 // UNSTABLE AT THE MOMENT
-function sortTable() {
+function sortTable(columnName,attribute,fst,snd) {
   var table, rows, switching, i, x, y, shouldSwitch;
   table = document.getElementById("myTable");
   switching = true;
   /*Make a loop that will continue until
   no switching has been done:*/
+
+  columntoSort = -1;
+  example = table.getElementsByTagName("TR")[0].getElementsByTagName("TH");
+  for (i = 0; i < example.length; i++) {
+    console.log(example[i].textContent);
+    if(example[i].textContent.indexOf(columnName) > 0) {
+      columntoSort = i;
+      console.log(columntoSort);
+    }
+  }
+  
   while (switching) {
     //start by saying: no switching is done:
     switching = false;
     rows = table.getElementsByTagName("TR");
+
+    
+    
     /*Loop through all table rows (except the
     first, which contains table headers):*/
     for (i = 1; i < (rows.length - 1); i++) {
@@ -212,12 +226,12 @@ function sortTable() {
       shouldSwitch = false;
       /*Get the two elements you want to compare,
       one from current row and one from the next:*/
-      x = rows[i].getElementsByTagName("TD")[5];
-      y = rows[i + 1].getElementsByTagName("TD")[5];
+      x = rows[i].getElementsByTagName("TD")[columntoSort];
+      y = rows[i + 1].getElementsByTagName("TD")[columntoSort];
       //console.log(x,y);
       //check if the two rows should switch place:
       if (SORTINGORDERPOP) {
-        if (parseInt(x.getAttribute("popularity")) > parseInt(y.getAttribute("popularity"))) {
+        if (parseInt(x.getAttribute(attribute)) > parseInt(y.getAttribute(attribute))) {
         //if so, mark as a switch and break the loop:
         shouldSwitch= true;
         break;
@@ -225,7 +239,7 @@ function sortTable() {
       }
 
       else {
-        if (parseInt(x.getAttribute("popularity")) < parseInt(y.getAttribute("popularity"))) {
+        if (parseInt(x.getAttribute(attribute)) < parseInt(y.getAttribute(attribute))) {
         //if so, mark as a switch and break the loop:
         shouldSwitch= true;
         break;
@@ -244,13 +258,13 @@ function sortTable() {
 
   if (SORTINGORDERPOP)
     {
-      $(".popdown").css("display", "none");
-      $(".popup").css("display", "initial");
+      $(fst).css("display", "none");
+      $(snd).css("display", "initial");
     }
   else 
   {
-      $(".popup").css("display", "none");
-      $(".popdown").css("display", "initial");
+      $(snd).css("display", "none");
+      $(fst).css("display", "initial");
 
   }
   SORTINGORDERPOP = !SORTINGORDERPOP;
@@ -324,3 +338,14 @@ function sortTableByLikes() {
 }
 
 
+function sortTable2(table_id, sortColumn){
+    var tableData = document.getElementById(table_id).getElementsByTagName('tbody').item(0);
+    var rowData = tableData.getElementsByTagName('tr');            
+    for(var i = 0; i < rowData.length - 1; i++){
+        for(var j = 0; j < rowData.length - (i + 1); j++){
+            if(Number(rowData.item(j).getElementsByTagName('td').item(sortColumn).innerHTML.replace(/[^0-9\.]+/g, "")) < Number(rowData.item(j+1).getElementsByTagName('td').item(sortColumn).innerHTML.replace(/[^0-9\.]+/g, ""))){
+                tableData.insertBefore(rowData.item(j+1),rowData.item(j));
+            }
+        }
+    }
+}

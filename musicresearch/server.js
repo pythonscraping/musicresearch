@@ -37,7 +37,10 @@ var Scenario = require('./models/scenario.js');
 
 var musicSchema = mongoose.Schema({
     title: String,
-    artist: String,
+    artist: {
+        type: String,
+        default: "No artist name provided"
+    },
     path: String
 });
 
@@ -94,15 +97,15 @@ passport.use(new FacebookStrategy({
     /* save if new */
     User.findOne({
         email: me.email
-    }, function(err, u) {
-        if (!u) {
+    }, function(err, found) {
+        if (!found) {
             me.save(function(err, me) {
                 if (err) return done(err);
                 done(null, me);
             });
         } else {
             //console.log(u);
-            done(null, u);
+            done(null, found);
         }
     });
 }));
@@ -131,6 +134,8 @@ var findSongInformation = function(err, userinfo, req, res) {
     Song.find({}, function(err, listofsongs) {
         if (err)
             console.log('error occured in the database');
+
+        console.log(listofsongs);
 
         listofsongs.forEach(function(element) {
             element.popularity = Math.floor((Math.random() * 10) + 1);
@@ -194,20 +199,61 @@ app.get('/', function(req, res) {
     }
 });
 
-
 app.get('/home', function(req, res) {
+    if (req.isAuthenticated()) {
+         res.render("welcome");
+    }
+
+     else {
+        res.send('Not authenticated');
+    }
+   
+});
+
+
+app.post('/proceed', function(req, res) {
+    console.log("user abandoning");
+
+    User.findOne({
+        _id: req.user._id
+    }, function(err, doc) {
+        doc.whereami = "round";
+        doc.save();
+        res.redirect("/");
+
+    });
+    
+});
+
+app.get('/round', function(req, res) {
     if (req.isAuthenticated()) {
         // Find user information
         User.findById(req.user._id, function(err, docs) {
-            Scenario.findOne({
+
+            if (docs.scenario) {
+                Scenario.findOne({
                 _id: docs.scenario
-            }, "-_id -name -__v", function(err, scenario) {
-                //console.log("WPOUH:", scenario);
-                //console.log("WPOUHWPOUHWPOUH:", docs);
-                var merging = Object.assign(docs.toJSON(), scenario.toJSON());
-                //console.log("Merging: ", merging);
-                findSongInformation(err, merging, req, res);
-            })
+                }, "-_id -name -__v", function(err, scenario) {
+                    //console.log("WPOUH:", scenario);
+                    //console.log("WPOUHWPOUHWPOUH:", docs);
+                    var merging = Object.assign(docs.toJSON(), scenario.toJSON());
+                    //console.log("Merging: ", merging);
+                    findSongInformation(err, merging, req, res);
+                });
+            }
+
+            else {
+                Scenario.findOne({}, "-_id -name -__v", 
+                    function(err, scenario) {
+                    //console.log("WPOUH:", scenario);
+                    //console.log("WPOUHWPOUHWPOUH:", docs);
+                    var merging = Object.assign(docs.toJSON(), scenario.toJSON());
+                    //console.log("Merging: ", merging);
+                    findSongInformation(err, merging, req, res);
+                });
+
+            }
+            
 
 
         });
@@ -246,7 +292,14 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
 
 app.post('/abandon', function(req, res) {
     console.log("user abandoning");
-    res.send("Abandonned successfully");
+
+    User.findOneAndRemove({
+        _id: req.user._id
+    }, function(err, doc) {
+        res.send("Abandonned successfully");
+
+    });
+    
 });
 
 

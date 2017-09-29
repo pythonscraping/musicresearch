@@ -6,7 +6,7 @@ th:hover {
 
 
 body {
-	background-color: #F5F3EE;
+	background-color: white;
 	cursor:defaut;
     user-select: none; 
 }
@@ -72,7 +72,7 @@ button  {
 
 table {
   border-spacing: 15px;
-  border-collapse: separate;
+  border-collapse: collapse;
   text-align: center;
   width: 100%;
 }
@@ -160,6 +160,7 @@ button.playpause  {
 
  .playing {
  	color:#669c83;
+ 	background-color: antiquewhite;
  }
 
 
@@ -195,3 +196,13 @@ button.playpause  {
  .trendDown {
  	color: red;
  }
+
+ .abandon {
+ 	position:fixed;
+ 	left:15;
+	bottom:15;
+ }
+
+ tr:not(:first-child):hover {
+          background-color: #ffff99;
+        }

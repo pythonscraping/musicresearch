@@ -10,19 +10,20 @@ table(id="myTable")
 	tr
 		th
 		th=""
+		th Artist
 		th Title
 		if (displayRatings=="on")
 			th Ratings
 		if (displayLikes=="on")
 			if (canSortLikes=="on")
-				th(onclick="sortTableByLikes()") Like 
+				th(onclick="sortTable('ike','numberoflikes','.likedown','.likeup')") Like 
 					span(class="likeup") ↓
 					span(class="likedown") ↑
 			else 
 				th Like
 		if (displayPopularity=="on")
 			if (canSortPopularity=="on")
-				th(onclick="sortTable(4)") Popularity 
+				th(onclick="sortTable('ularity','popularity','.popdown','.popup')") Popularity 
 					span(class="popup") ↓
 					span(class="popdown") ↑
 			else 
@@ -37,6 +38,7 @@ table(id="myTable")
 						source(src = val.path ,type="audio/mpeg")  
 				td
 					button(onclick="play('" + val._id + "')") 	►
+				td=val.artist
 				td=val.title
 				if (displayRatings=="on")
 					td
@@ -157,7 +159,7 @@ div(id="mainplayer")
 
 
 form(class="abandon playpause",ref='uploadForm',action='http://localhost:8000/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
-	input(class="abandon playpause",type='submit',value='Abandon!',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
+	input(class="abandon",type='submit',value='Abandon',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
 
 
 script(src="/music.js")
