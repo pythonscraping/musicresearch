@@ -7,7 +7,7 @@ head
 
 
 
-form(ref='uploadForm',id='uploadForm',action='http://localhost:8000/admin/rounds/creation',method='post',encType="multipart/form-data")
+form(ref='uploadForm',id='uploadForm',action='/admin/rounds/creation',method='post',encType="multipart/form-data")
 	input(type="text",name="name")
 	each round in ['round1', 'round2', 'round3', 'round4', 'round5']
 		p=round+" : "

@@ -5,7 +5,7 @@ head
   
 
 
-form(ref='uploadForm',id='uploadForm',action='http://localhost:8000/admin/scenario',method='post',encType="multipart/form-data")
+form(ref='uploadForm',id='uploadForm',action='/admin/scenario',method='post',encType="multipart/form-data")
 	input(type="text",name="name")
 	each val in TrueFalseFields
 		br

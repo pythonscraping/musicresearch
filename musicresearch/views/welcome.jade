@@ -4,5 +4,5 @@ head
 
 p Welcome to the music research experiment. If you press continue you agree to proceed. At anytime, you will be able to abandon and all your data will be deleted from our servers. 
 
-form(class="abandon playpause",ref='uploadForm',action='http://localhost:8000/proceed',method='post',encType="multipart/form-data",id="myCoolForm")
+form(class="abandon playpause",ref='uploadForm',action='/proceed',method='post',encType="multipart/form-data",id="myCoolForm")
 	input(class="proceed",type='submit',value='Proceed',onclick="return confirm('You agree that you have read and understood the research purposes.');")
