@@ -15,7 +15,8 @@ table(id="myTable")
 		th Title
 		if (displayRatings=="on")
 			th Ratings
-		th=""
+		if(displayLikesNumber=="on")
+			th=""
 		if (displayLikes=="on")
 			if (canSortLikes=="on")
 				th(onclick="sortTable('ike','numberoflikes','.likedown','.likeup')") Like 
@@ -131,9 +132,10 @@ table(id="myTable")
 								button(class="like",value=val._id) 	♥ 
 							- else 
 								button(class="unlike",value=val._id) ♥
-				td(numberoflikes=val.numberOfLikes)
-					div(class="likeunlike")
-						span= val.numberOfLikes.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,').toString().split(".0")[0]
+				if(displayLikesNumber=="on")
+					td(numberoflikes=val.numberOfLikes)
+						div(class="likeunlike")
+							span= val.numberOfLikes.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, '$1,').toString().split(".0")[0]
 
 				if (displayPopularity=="on")
 					td(popularity=val.popularity)
@@ -171,8 +173,18 @@ div(id="mainplayer",class="hideplayer")
 div(class="mainplayer")
 	p 30 seconds listening
 
+
+
+form(class="else playpause",ref='uploadForm2',action='http://localhost:8000/nextstep',method='post',encType="multipart/form-data",id="myCoolForm2")
+	input(class="else",type='submit',value='Next step')
+
+
+
 form(class="abandon playpause",ref='uploadForm',action='http://localhost:8000/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
 	input(class="abandon",type='submit',value='Abandon',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
+
+
+
 
 
 script(src="/music.js")

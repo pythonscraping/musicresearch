@@ -3,6 +3,7 @@
 
 var mongoose = require('mongoose');
 
+var Rounds = require('../models/rounds.js');
 
 var Songliked = mongoose.Schema({
     id: String,
@@ -33,7 +34,8 @@ var userSchema = mongoose.Schema({
     whereami: {
         type: String,
         default: "home"
-    }
+    },
+    rounds: Rounds.schema
 });
 
 

@@ -38,7 +38,7 @@ admin.get('/scenario', function(req, res) {
         if ( ! req.user.isAdmin) {
             User.find(function(err, docs) {
                 res.render('scenario', {
-                    TrueFalseFields: ['displayPopularity', 'displayLikes', 'displayRatings', 'canSortPopularity', 'canSortLikes', 'displayTrend', 'sortedPopularity', 'sortedLikes']
+                    TrueFalseFields: ['displayPopularity', 'displayLikes', 'displayLikesNumber', 'displayRatings', 'canSortPopularity', 'canSortLikes', 'displayTrend', 'sortedPopularity', 'sortedLikes']
                 });
             });
         } else {

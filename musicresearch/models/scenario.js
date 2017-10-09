@@ -10,6 +10,10 @@ var scenarioSchema = mongoose.Schema({
         type: String,
         default: "off"
     },
+    displayLikesNumber: {
+        type: String,
+        default: "off"
+    },
     displayRatings: {
         type: String,
         default: "off"

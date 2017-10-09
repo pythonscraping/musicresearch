@@ -1,0 +1,17 @@
+head
+	title MUSIC RESEARCH
+	link(href='/ScenarioVisu.css', rel='stylesheet')
+	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+
+
+
+
+
+form(ref='uploadForm',id='uploadForm',action='http://localhost:8000/admin/rounds/creation',method='post',encType="multipart/form-data")
+	input(type="text",name="name")
+	each round in ['round1', 'round2', 'round3', 'round4', 'round5']
+		p=round+" : "
+			select(name='rounds')
+				each scenario in scenarios
+					option(value=scenario._id,name=round)=scenario.name
+	input(type='submit',value='Create set of rounds')
