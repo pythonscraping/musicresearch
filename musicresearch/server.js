@@ -2,7 +2,16 @@ var express = require('express');
 var app = express();
 var passport = require('passport');
 FacebookStrategy = require('passport-facebook').Strategy;
+var async = require('async')
 
+var PD = require("probability-distributions");
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+        return next(); 
+    }
+    res.redirect('/auth/facebook');
+}
 
 
 function extend(obj, src) {
@@ -22,7 +31,6 @@ var cookieParser = require('cookie-parser');
 var request = require('request');
 
 
-//Routing separate files
 
            
 
@@ -35,12 +43,18 @@ var User = require('./models/user.js');
 var Scenario = require('./models/scenario.js');
 var Song = require('./models/music.js')
 
+var Round = require('./models/round.js');
+var Rounds = require('./models/rounds.js');
+
+const roundcontroller = require('./controllers/roundcontroller')
+ 
 
 
 
-//var User = mongoose.model('User', userSchema);
 
-//var Scenario = mongoose.model('Scenario', scenarioSchema);
+
+
+
 module.exports = User;
 
 var bodyParser = require('body-parser')
@@ -60,6 +74,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
 app.use(express.static(__dirname + '/music'));
+app.use(express.static(__dirname + '/jsandcss'));
 
 // VIEW ENGINE
 app.set('view engine', 'jade');
@@ -67,14 +82,10 @@ app.set('view engine', 'jade');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 
-
-
-
-
 passport.use(new FacebookStrategy({
     clientID: "107832313168956",
     clientSecret: "2964b2662352879e5debeef86698fbff",
-    callbackURL: "http://localhost:8000/auth/facebook/callback",
+    callbackURL: "/auth/facebook/callback",
     profileFields: ['id', 'displayName', 'emails', "age_range", "birthday", "context",
         "education", "gender", "relationship_status", "accounts", "posts"
     ]
@@ -109,99 +120,27 @@ passport.use(new FacebookStrategy({
 
 
 
-var findSongInformation = function(err, userinfo, req, res) {
-    if (err)
-        console.log('error occured in the database');
-    console.log(userinfo);
-    var listoflikes = userinfo.songsLiked;
-    var useratings = userinfo.useratings;
-    var playlist = userinfo.playlist;
-    var arrayoflikes = [];
-    for (var i = 0; i < listoflikes.length; i++) {
-        if (listoflikes[i].isLiked) {
-            arrayoflikes.push(listoflikes[i].id);
-        }
-
-    }
-    //console.log(arrayoflikes);
-
-    Song.find({}, function(err, listofsongs) {
-        if (err)
-            console.log('error occured in the database');
-
-        console.log(listofsongs);
-
-        listofsongs.forEach(function(element) {
-            element.popularity = Math.floor((Math.random() * 10) + 1);
-            element.numberOfLikes = Math.floor((Math.random() * 100010) + 1);
-            var possibleTrends = ["up", "down"];
-            element.trend = possibleTrends[Math.floor((Math.random() * 2) + 0)]
-            element.trendValue = Math.floor((Math.random() * 5) + 1);;
-            //console.log(element.popularity);
-        });
-
-
-
-        //sortedPopularity and sortedLikes should be EITHER OR
-        sortedPopularity = userinfo.sortedPopularity;
-        if (sortedPopularity == "on") {
-            listofsongs.sort(function(a, b) {
-                return b.popularity - a.popularity;
-            })
-        }
-
-        sortedLikes = userinfo.sortedLikes;
-        if (sortedLikes == "on") {
-            listofsongs.sort(function(a, b) {
-                return b.numberOfLikes - a.numberOfLikes;
-            })
-        }
-
-
-        res.render('index', {
-            title: 'Hey',
-            message: 'Hello there!',
-            listofsongs: listofsongs,
-            displayPopularity: userinfo.displayPopularity,
-            displayLikes: userinfo.displayLikes,
-            displayRatings: userinfo.displayRatings,
-            displayTrend: userinfo.displayTrend,
-            canSortPopularity: userinfo.canSortPopularity,
-            canSortLikes: userinfo.canSortLikes,
-            arrayoflikess: arrayoflikes,
-            playlist: playlist,
-            useratings: useratings
-        });
-
-    });
-
-}
 
 
 
 
 
-app.get('/', function(req, res) {
-    if (req.isAuthenticated()) {
-        // Find user information
+
+
+
+app.get('/', ensureAuthenticated, function(req, res) {
+
         User.findById(req.user._id, function(err, docs) {
             
             var locationToGo = '/' + docs.whereami;
             res.redirect(locationToGo);
         });
-    } else {
-        res.redirect('/auth/facebook');
-    }
+    
 });
 
-app.get('/home', function(req, res) {
-    if (req.isAuthenticated()) {
+app.get('/home', ensureAuthenticated, function(req, res) {
          res.render("welcome");
-    }
-
-     else {
-        res.send('Not authenticated');
-    }
+    
    
 });
 
@@ -212,7 +151,7 @@ app.post('/proceed', function(req, res) {
     User.findOne({
         _id: req.user._id
     }, function(err, doc) {
-        doc.whereami = "round";
+        doc.whereami = "round1";
         doc.save();
         res.redirect("/");
 
@@ -220,42 +159,44 @@ app.post('/proceed', function(req, res) {
     
 });
 
-app.get('/round', function(req, res) {
-    if (req.isAuthenticated()) {
-        // Find user information
-        User.findById(req.user._id, function(err, docs) {
 
-            if (docs.scenario) {
-                Scenario.findOne({
-                _id: docs.scenario
-                }, "-_id -name -__v", function(err, scenario) {
-                    //console.log("WPOUH:", scenario);
-                    //console.log("WPOUHWPOUHWPOUH:", docs);
-                    var merging = Object.assign(docs.toJSON(), scenario.toJSON());
-                    //console.log("Merging: ", merging);
-                    findSongInformation(err, merging, req, res);
-                });
-            }
+app.post('/nextstep', function(req, res) {
+    console.log("user going to the next round");
 
-            else {
-                Scenario.findOne({}, "-_id -name -__v", 
-                    function(err, scenario) {
-                    //console.log("WPOUH:", scenario);
-                    //console.log("WPOUHWPOUHWPOUH:", docs);
-                    var merging = Object.assign(docs.toJSON(), scenario.toJSON());
-                    //console.log("Merging: ", merging);
-                    findSongInformation(err, merging, req, res);
-                });
+    User.findOne({
+        _id: req.user._id
+    }, function(err, doc) {
 
-            }
-            
+        now = doc.whereami;
+
+        switch(now) {
+        case "round1":
+            doc.whereami = "round2";
+            break;
+        case "round2":
+            doc.whereami = "round3";
+            break;
+        case "round3":
+            doc.whereami = "round4";
+            break;
+        case "round4":
+            doc.whereami = "round5";
+            break;
+        default:
+            doc.whereami = "home";
+        } 
+        
 
 
-        });
-    } else {
-        res.redirect('/auth/facebook');
-    }
+
+        doc.save();
+        res.redirect("/");
+
+    });
+    
 });
+
+app.get('/round*', ensureAuthenticated, roundcontroller.main);
 
 
 
@@ -286,6 +227,19 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
 
 
 app.post('/abandon', function(req, res) {
+    console.log("user abandoning");
+    User.findOneAndRemove({
+        _id: req.user._id
+    }, function(err, doc) {
+        req.logout();
+        res.send("Abandonned successfully");
+
+    });
+    
+});
+
+
+app.get('/abandon', function(req, res) {
     console.log("user abandoning");
     User.findOneAndRemove({
         _id: req.user._id
@@ -381,6 +335,108 @@ app.post('/admin/scenario', function(req, res) {
     });
 });
 
+
+
+app.get('/admin/rounds/creation', ensureAuthenticated, function(req, res) {
+    
+
+    Scenario.find(function(err, docs) {
+                res.render('scenariocreate', {
+                    scenarios: docs
+                })});
+});
+
+app.post('/admin/rounds/creation', function(req, res) {
+    rounds = req.body.rounds;
+    lotofrounds = new Rounds();
+    name = req.body.name;
+
+    async.forEachOf (rounds, function (scenario, iii, next){ 
+        
+        Scenario.findOne({_id: scenario}, function(err, scenarioresult) {
+        Song.aggregate().sample(15).exec( function(err, doc) {
+
+        console.log(iii + "hey");
+        if (err)
+            console.log('error occured in the database');
+
+        a = doc;
+        uniformvalues = PD.runif(15) 
+        a.forEach(function(element,index) {
+            console.log(index);
+
+            element.popularity = Math.floor((Math.random() * 10) + 1);
+            //element.numberOfLikes = Math.floor((Math.random() * 100010) + 1);
+            element.numberOfLikes = 1000 * uniformvalues[index];
+
+            var possibleTrends = ["up", "down"];
+            element.trend = possibleTrends[Math.floor((Math.random() * 2) + 0)]
+            element.trendValue = Math.floor((Math.random() * 5) + 1);;
+
+            var tryround = new Round();
+            tryround.listofsongs = a;
+            tryround.scenario = scenarioresult;
+            lotofrounds.name = name;
+            lotofrounds['round'+(iii+1).toString()] = tryround;
+        });
+
+
+        console.log("something happened")
+        next(); 
+
+        });
+
+    });
+    }, function(err) {
+      /*  User.update({ _id : req.user._id},{ rounds : lotofrounds} ,function(err, test) {
+                res.send(test);
+
+             });*/
+             Rounds.remove({}, function() {
+
+                    lotofrounds.save(function(err,doc){
+                        res.redirect("/admin/rounds/view");
+                        console.log('iterating done');
+                    });
+             });
+
+      
+});
+
+});
+
+
+
+
+
+app.get('/admin/rounds/view', ensureAuthenticated, function(req, res) {
+    
+
+    Rounds.find(function(err, docs) {
+                res.render('roundsview', {
+                    rounds: docs
+                })});
+});
+
+
+
+app.post('/admin/rounds/delete', function(req, res) {
+    if (req.isAuthenticated()) {
+        var obj = {};
+        console.log('body: ' + JSON.stringify(req.body));
+
+
+        Round.remove({
+            _id: req.body.id
+        }, function(err) {
+            if (!err) {
+                res.redirect('/admin/scenario/visualize');
+            } else {
+                res.send('Problem');
+            }
+        });
+    }
+});
 
 
 app.post('/admin/scenario/delete', function(req, res) {
@@ -576,7 +632,8 @@ app.post('/changeScenario', function(req, res) {
 
 
 var administration = require("./admin.js"); 
+var createrounds = require("./createrounds.js")
 app.use("/admin", administration);   
-
+app.use("/rounds", createrounds);   
 
 app.listen(8000);
