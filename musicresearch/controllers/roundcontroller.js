@@ -143,42 +143,49 @@ exports.main = (req,res) => {
 
             Rounds.findOne({}, function(err, rounds){
 
-            listofsongs = rounds[whereami].listofsongs;
-            userinfo = rounds[whereami].scenario;
-
-
-            sortedPopularity = userinfo.sortedPopularity;
-            if (sortedPopularity == "on") {
-                listofsongs.sort(function(a, b) {
-                    return b.popularity - a.popularity;
-                })
+            if(!rounds) {
+                res.redirect("/admin/rounds/creation");
             }
 
-            sortedLikes = userinfo.sortedLikes;
-            if (sortedLikes == "on") {
-                listofsongs.sort(function(a, b) {
-                    return b.numberOfLikes - a.numberOfLikes;
-                })
+            else {
+                listofsongs = rounds[whereami].listofsongs;
+                userinfo = rounds[whereami].scenario;
+
+
+                sortedPopularity = userinfo.sortedPopularity;
+                if (sortedPopularity == "on") {
+                    listofsongs.sort(function(a, b) {
+                        return b.popularity - a.popularity;
+                    })
+                }
+
+                sortedLikes = userinfo.sortedLikes;
+                if (sortedLikes == "on") {
+                    listofsongs.sort(function(a, b) {
+                        return b.numberOfLikes - a.numberOfLikes;
+                    })
+                }
+
+
+                res.render('index', {
+                title: 'Hey',
+                message: 'Hello there!',
+                listofsongs: listofsongs,
+                displayPopularity: userinfo.displayPopularity,
+                displayLikes: userinfo.displayLikes,
+                displayRatings: userinfo.displayRatings,
+                displayTrend: userinfo.displayTrend,
+                canSortPopularity: userinfo.canSortPopularity,
+                canSortLikes: userinfo.canSortLikes,
+                arrayoflikess: arrayoflikes,
+                playlist: playlist,
+                useratings: useratings,
+                displayLikesNumber : userinfo.displayLikesNumber
+
+                });
+
             }
-
-
-            res.render('index', {
-            title: 'Hey',
-            message: 'Hello there!',
-            listofsongs: listofsongs,
-            displayPopularity: userinfo.displayPopularity,
-            displayLikes: userinfo.displayLikes,
-            displayRatings: userinfo.displayRatings,
-            displayTrend: userinfo.displayTrend,
-            canSortPopularity: userinfo.canSortPopularity,
-            canSortLikes: userinfo.canSortLikes,
-            arrayoflikess: arrayoflikes,
-            playlist: playlist,
-            useratings: useratings,
-            displayLikesNumber : userinfo.displayLikesNumber
-
-            });
-
+            
             
         });
 
