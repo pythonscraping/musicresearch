@@ -175,12 +175,12 @@ div(class="mainplayer")
 
 
 
-form(class="else playpause",ref='uploadForm2',action='http://localhost:8000/nextstep',method='post',encType="multipart/form-data",id="myCoolForm2")
+form(class="else playpause",ref='uploadForm2',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm2")
 	input(class="else",type='submit',value='Next step')
 
 
 
-form(class="abandon playpause",ref='uploadForm',action='http://localhost:8000/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
+form(class="abandon playpause",ref='uploadForm',action='/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
 	input(class="abandon",type='submit',value='Abandon',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
 
 
