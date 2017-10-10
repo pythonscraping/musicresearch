@@ -16,6 +16,7 @@ table(id="myTable")
 		th displayTrend
 		th sortedPopularity
 		th sortedLikes
+		th displayRatingsTotal
 
 
 		each scenario in scenarios
@@ -32,6 +33,7 @@ table(id="myTable")
 				td(class=scenario.displayTrend)=scenario.displayTrend
 				td(class=scenario.sortedPopularity)=scenario.sortedPopularity
 				td(class=scenario.sortedLikes)=scenario.sortedLikes
+				th(class=scenario.displayRatingsTotal)=scenario.displayRatingsTotal
 
 
 script(src="/scenarioVisu.js")

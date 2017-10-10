@@ -1,0 +1,12 @@
+h1="Your playlist"
+
+
+p Please find below the links to the songs your saved from your playlist
+each song in playlist
+	a(href="https://www.jamendo.com/search?q"+song.artist+" "+song.title)=song.artist+" - "+ song.title
+	br
+
+br
+br 
+form(class="abandon playpause",ref='uploadForm',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm")
+	input(class="proceed",type='submit',value='End experiment')

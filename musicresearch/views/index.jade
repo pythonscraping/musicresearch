@@ -10,11 +10,13 @@ table(id="myTable")
 	tr
 		th
 		th=""
-		th addtoPlaylist
+		th Add to playlist
 		th Artist
 		th Title
 		if (displayRatings=="on")
-			th Ratings
+			th Rate
+		if (displayRatingsTotal=="on")
+			th Rating
 		if(displayLikesNumber=="on")
 			th=""
 		if (displayLikes=="on")
@@ -124,7 +126,9 @@ table(id="myTable")
 									span(id="bstar4",value=val._id) ☆ 
 									span(id="astar5",value=val._id) ★ 
 									span(id="bstar5",value=val._id) ☆
-
+				if (displayRatingsTotal=="on")
+					td
+						span=val.ratings
 				if (displayLikes=="on")
 					td
 						div(class="likeunlike")
@@ -175,13 +179,13 @@ div(class="mainplayer")
 
 
 
-form(class="else playpause",ref='uploadForm2',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm2")
-	input(class="else",type='submit',value='Next step')
+form(class="else playpause hidenext",ref='uploadForm2',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm2")
+	input(class="else myButton",type='submit',value='Next step')
 
 
 
 form(class="abandon playpause",ref='uploadForm',action='/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
-	input(class="abandon",type='submit',value='Abandon',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
+	input(class="abandon myButton",type='submit',value='Abandon',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
 
 
 
