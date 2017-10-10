@@ -1,7 +1,7 @@
 var CURRENTLYPLAYED = document.getElementsByTagName("audio")[0].id;
 
 
-
+var MINIMUMSONGPLAYED = 0 ;
  localStorage.setItem("songscount", 0);
 
 
@@ -55,6 +55,9 @@ var play = function(id) {
 
   localStorage.setItem("songscount",  parseInt(localStorage.getItem("songscount")) + 1);
 
+  if (parseInt(localStorage.getItem("songscount")) > MINIMUMSONGPLAYED ){
+    $(".hidenext").css("visibility", "initial");
+  }
   $(".hideplayer").css("visibility", "hidden");
   $(".mainplayer").css("display", "initial");
   setTimeout(function(){ 

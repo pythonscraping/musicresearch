@@ -29,6 +29,7 @@ var findSongInformation = function(err, userinfo, req, res) {
             element.trend = possibleTrends[Math.floor((Math.random() * 2) + 0)]
             element.trendValue = Math.floor((Math.random() * 5) + 1);;
             console.log(element);
+            element.ratings =  Math.floor((Math.random() * 5) + 1);;
         });
 
 
@@ -180,7 +181,8 @@ exports.main = (req,res) => {
                 arrayoflikess: arrayoflikes,
                 playlist: playlist,
                 useratings: useratings,
-                displayLikesNumber : userinfo.displayLikesNumber
+                displayLikesNumber : userinfo.displayLikesNumber,
+                displayRatingsTotal: userinfo.displayRatingsTotal
 
                 });
 

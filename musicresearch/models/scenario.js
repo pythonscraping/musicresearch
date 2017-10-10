@@ -18,6 +18,10 @@ var scenarioSchema = mongoose.Schema({
         type: String,
         default: "off"
     },
+    displayRatingsTotal: {
+        type: String,
+        default: "off"
+    },
     canSortPopularity: {
         type: String,
         default: "off"

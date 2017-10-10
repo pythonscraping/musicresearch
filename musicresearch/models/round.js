@@ -16,7 +16,8 @@ var ExtendedmusicSchema = mongoose.Schema({
     popularity : Number,
     numberOfLikes  : Number,
     trend : String,
-    trendValue : Number
+    trendValue : Number,
+    ratings: Number
 });
 
 var round = mongoose.Schema({

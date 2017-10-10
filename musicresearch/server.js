@@ -145,13 +145,23 @@ app.get('/home', ensureAuthenticated, function(req, res) {
 });
 
 
+
+
+
+app.get('/explanation', ensureAuthenticated, function(req, res) {
+         res.render("explanation");
+    
+   
+});
+
+
 app.post('/proceed', function(req, res) {
     console.log("user abandoning");
 
     User.findOne({
         _id: req.user._id
     }, function(err, doc) {
-        doc.whereami = "round1";
+        doc.whereami = "explanation";
         doc.save();
         res.redirect("/");
 
@@ -170,6 +180,10 @@ app.post('/nextstep', function(req, res) {
         now = doc.whereami;
 
         switch(now) {
+
+        case "explanation":
+            doc.whereami = "round1";
+            break;
         case "round1":
             doc.whereami = "round2";
             break;
@@ -181,6 +195,12 @@ app.post('/nextstep', function(req, res) {
             break;
         case "round4":
             doc.whereami = "round5";
+            break;
+        case "round5":
+            doc.whereami = "playlist";
+            break;
+        case "playlist":
+            doc.whereami = "abandon";
             break;
         default:
             doc.whereami = "home";
@@ -364,10 +384,10 @@ app.post('/admin/rounds/creation', function(req, res) {
         uniformvalues = PD.runif(15) 
         a.forEach(function(element,index) {
             console.log(index);
-
+            element.ratings =  Math.floor((Math.random() * 5) + 1);;
             element.popularity = Math.floor((Math.random() * 10) + 1);
             //element.numberOfLikes = Math.floor((Math.random() * 100010) + 1);
-            element.numberOfLikes = 1000 * uniformvalues[index];
+            element.numberOfLikes = Math.floor(1000 * uniformvalues[index]);
 
             var possibleTrends = ["up", "down"];
             element.trend = possibleTrends[Math.floor((Math.random() * 2) + 0)]
@@ -418,6 +438,28 @@ app.get('/admin/rounds/view', ensureAuthenticated, function(req, res) {
                 })});
 });
 
+
+
+app.get('/playlist', ensureAuthenticated, function(req, res) {
+    
+User.findById(req.user._id, function(err, docs) {
+
+                var listofids = [];
+                for (var i = docs.playlist.length - 1; i >= 0; i--) {
+                    listofids.push(docs.playlist[i].id);
+                    console.log(listofids);
+                }
+
+                Song.find({_id : listofids}, function(err,songs){
+                    console.log(songs);
+
+                res.render('playlist', {
+                    playlist: songs
+                });
+                })
+
+            });
+});
 
 
 app.post('/admin/rounds/delete', function(req, res) {
@@ -632,8 +674,15 @@ app.post('/changeScenario', function(req, res) {
 
 
 var administration = require("./admin.js"); 
-var createrounds = require("./createrounds.js")
 app.use("/admin", administration);   
+
+
+
+
+
+
+var createrounds = require("./createrounds.js")
+
 app.use("/rounds", createrounds);   
 
 app.listen(1234);
