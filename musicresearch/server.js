@@ -397,11 +397,13 @@ app.post('/admin/rounds/creation', function(req, res) {
     lotofrounds = new Rounds();
     name = req.body.name;
 
+    Song.find().lean().exec(function(err,allsongs){
+    allsongsCopy = shuffle(allsongs);
+    
     async.forEachOf (rounds, function (scenario, iii, next){ 
         
         Scenario.findOne({_id: scenario}, function(err, scenarioresult) {
-        Song.find().skip(iii*12).limit(12).lean().exec( function(err, doc) {
-
+        doc = allsongsCopy.slice(0+(12*iii),12+(12*iii));
         console.log(iii + "hey");
         if (err)
             console.log('error occured in the database');
@@ -430,7 +432,6 @@ app.post('/admin/rounds/creation', function(req, res) {
         console.log("something happened")
         next(); 
 
-        });
 
     });
     }, function(err) {
@@ -447,8 +448,10 @@ app.post('/admin/rounds/creation', function(req, res) {
              });
 
       
-});
+    });
 
+
+});//song.find()
 });
 
 
