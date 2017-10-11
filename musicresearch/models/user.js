@@ -35,6 +35,7 @@ var userSchema = mongoose.Schema({
         type: String,
         default: "home"
     },
+    roundorder : [String],
     rounds: Rounds.schema
 });
 

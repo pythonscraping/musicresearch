@@ -1,4 +1,37 @@
+
+
 var CURRENTLYPLAYED = document.getElementsByTagName("audio")[0].id;
+
+
+
+
+
+function noBack(){window.history.forward()}
+noBack();
+window.onload=noBack;
+window.onpageshow=function(evt){if(evt.persisted)noBack()}
+window.onunload=function(){void(0)}
+
+
+
+/*
+
+setInterval(function(){
+  if(parseInt(localStorage.getItem("nogoback"))==1) {
+    localStorage.setItem("nogoback", 0);
+    location.reload(); 
+  }
+
+  }
+, 500);
+
+if(parseInt(localStorage.getItem("nogoback"))!=1) {
+    window.onbeforeunload = function() { 
+    localStorage.setItem("nogoback", 1);}
+
+
+  }
+*/
 
 
 var MINIMUMSONGPLAYED = 0 ;
@@ -55,18 +88,18 @@ var play = function(id) {
 
   localStorage.setItem("songscount",  parseInt(localStorage.getItem("songscount")) + 1);
 
-  if (parseInt(localStorage.getItem("songscount")) > MINIMUMSONGPLAYED ){
-    $(".hidenext").css("visibility", "initial");
-  }
+  
   $(".hideplayer").css("visibility", "hidden");
   $(".mainplayer").css("display", "initial");
   setTimeout(function(){ 
       $(".mainplayer").css("display", "none");
       $(".hideplayer").css("visibility", "initial");
-
+      if (parseInt(localStorage.getItem("songscount")) > MINIMUMSONGPLAYED ){
+        $(".hidenext").css("visibility", "initial");
+      }
       candoubleclick();
 
-  }, 30000);
+  }, 3000);
 
   if (id) {
 
