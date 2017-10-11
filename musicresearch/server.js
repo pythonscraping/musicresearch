@@ -412,13 +412,13 @@ app.post('/admin/rounds/creation', function(req, res) {
         uniformvalues = PD.rnorm(4,50,5).concat(PD.rnorm(4,50,10)).concat(PD.rnorm(4,100,10))
         a.forEach(function(element,index) {
             console.log(index);
-            element.ratings =  Math.floor((Math.random() * 5) + 1);;
+            element.ratings =  ((Math.random() * 5)).toFixed(1);;
             element.popularity = Math.floor((Math.random() * 10) + 1);
             //element.numberOfLikes = Math.floor((Math.random() * 100010) + 1);
             element.numberOfLikes = Math.floor(uniformvalues[index]);
 
-            var possibleTrends = ["up", "down"];
-            element.trend = possibleTrends[Math.floor((Math.random() * 2) + 0)]
+            var possibleTrends = ["up", "down", "equal"];
+            element.trend = possibleTrends[Math.floor((Math.random() * 3) + 0)]
             element.trendValue = Math.floor((Math.random() * 5) + 1);;
 
             var tryround = new Round();

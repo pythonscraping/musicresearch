@@ -10,7 +10,8 @@ h1 Music Research
 table(id="myTable")
 	tr
 		th
-		th=""
+		if(playbutton=="on")
+			th=""
 		th Add to playlist
 		th Artist
 		th Title
@@ -43,8 +44,9 @@ table(id="myTable")
 				td
 					audio(id=val._id,name=val.title)
 						source(src = val.path ,type="audio/mpeg")  
-				td
-					button(onclick="play('" + val._id + "')",class="hideplayer") 	►
+				if(playbutton=="on")
+					td
+						button(onclick="play('" + val._id + "')",class="hideplayer") 	►
 				td 
 					if (playlist[playlist.findIndex(x => x.id== val._id)])
 						button(class="removeplaylist",value=val._id) ✓
@@ -154,11 +156,15 @@ table(id="myTable")
 				if (displayTrend=="on")
 					td
 						if (val.trend =="up")
-							span(class="trendUp") ↑ 
+							span(class="trendUp updownsign") 🡹 
 							span(class="trendUp")= val.trendValue
 						if (val.trend =="down")
-							span(class="trendDown") ↓ 
+							span(class="trendDown updownsign") 🡻 
 							span(class="trendDown")= val.trendValue
+						if (val.trend =="equal")
+							span(class="updownsign")="-" 
+							span(class="trendEqual")=""
+
 					
 
 div(id="mainplayer",class="hideplayer")
@@ -186,7 +192,7 @@ form(class="else playpause",ref='uploadForm2',action='/nextstep',method='post',e
 
 
 form(class="abandon playpause",ref='uploadForm',action='/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
-	input(class="abandon myButton",type='submit',value='Abandon',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
+	input(class="abandon myButton",type='submit',value='Quit',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
 
 
 

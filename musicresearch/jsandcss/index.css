@@ -1,4 +1,7 @@
-
+@charset "utf-8";
+@import url(//fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic);
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url(//fonts.googleapis.com/css?family=Lato:300,400,700);
 
 th:hover {
 	 cursor:defaut ;
@@ -11,9 +14,11 @@ tr {
 
 
 body {
-	background-color: white;
+	background-color: #FFCE00;
 	cursor:defaut;
     user-select: none; 
+    font-family: Lato;
+    background-image: url("https://yellowkies.yg-sechskies.com/img/zone/main/bg.jpg");
 }
 
 #progressBar { 
@@ -49,10 +54,10 @@ body {
 button  {
  	margin-left: 10;
  	display: inline-block;
- 	background-color: #FFFCF6;
+ 	background-color: #FFCE00;
 
 	border-radius: 25px;
-	font-size : 15px;
+	font-size : 30px;
 	/*border:1px solid grey; */
 	border: none;
 	outline: none;
@@ -80,7 +85,11 @@ table {
   border-collapse: collapse;
   text-align: center;
   width: 100%;
+  height: calc(100vh - 200px);
 }
+
+
+
 
 
 
@@ -119,6 +128,10 @@ table {
 
 .scores:hover {
 	cursor:default
+}
+
+.scores {
+	font-size: 20px;
 }
 
 
@@ -194,7 +207,7 @@ button.playpause  {
 
 
  .trendUp {
- 	color: green;
+ 	color: #28b532;
  }
 
 
@@ -215,7 +228,7 @@ button.playpause  {
  }
 
  tr:not(:first-child):hover {
-          background-color: #ffff99;
+          background-color: #ffffff;
         }
 
 .removeplaylist:hover{
@@ -274,4 +287,12 @@ button.playpause  {
 
 h1 {
 	text-align: center;
+}
+
+.updownsign {
+	font-size: 20px;
+}
+
+#astar1,#astar2,#astar3,#astar4,#astar5 {
+	color:red;
 }
