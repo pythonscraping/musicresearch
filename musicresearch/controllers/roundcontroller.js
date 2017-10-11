@@ -1,3 +1,10 @@
+function shuffle(a) {
+    for (let i = a.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    }
+    return a;
+}
 
 
 var findSongInformation = function(err, userinfo, req, res) {
@@ -150,6 +157,9 @@ exports.main = (req,res) => {
 
             else {
                 listofsongs = rounds[whereami].listofsongs;
+                console.log(listofsongs);
+                shuffle(listofsongs);
+                console.log(listofsongs);
                 userinfo = rounds[whereami].scenario;
 
 

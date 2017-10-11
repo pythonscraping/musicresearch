@@ -155,12 +155,22 @@ app.get('/explanation', ensureAuthenticated, function(req, res) {
 });
 
 
+function shuffle(a) {
+    for (let i = a.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    }
+    return a;
+}
+
 app.post('/proceed', function(req, res) {
     console.log("user abandoning");
 
     User.findOne({
         _id: req.user._id
     }, function(err, doc) {
+        var listofrounds = ["round1","round2","round3","round4","round5"];
+        doc.roundorder = shuffle(listofrounds);
         doc.whereami = "explanation";
         doc.save();
         res.redirect("/");
@@ -179,32 +189,48 @@ app.post('/nextstep', function(req, res) {
 
         now = doc.whereami;
 
-        switch(now) {
+        if (doc.roundorder.indexOf(doc.whereami) < doc.roundorder.length-1) {
+            console.log(now);
+            switch(now) {
 
-        case "explanation":
-            doc.whereami = "round1";
-            break;
-        case "round1":
-            doc.whereami = "round2";
-            break;
-        case "round2":
-            doc.whereami = "round3";
-            break;
-        case "round3":
-            doc.whereami = "round4";
-            break;
-        case "round4":
-            doc.whereami = "round5";
-            break;
-        case "round5":
-            doc.whereami = "playlist";
-            break;
-        case "playlist":
-            doc.whereami = "abandon";
-            break;
-        default:
-            doc.whereami = "home";
-        } 
+                
+                case "explanation":
+                    doc.whereami = doc.roundorder[0];
+                    break;
+                case "round1":
+                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1];
+                    break;
+                case "round2":
+                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1]
+                    break;
+                case "round3":
+                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1]
+                    break;
+                case "round4":
+                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1]
+                    break;
+                case "round5":
+                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1]
+                    break;
+                case "playlist":
+                    doc.whereami = "abandon";
+                    break;
+                default:
+                    doc.whereami = "home";
+            } 
+        }
+
+        else {
+            if(doc.whereami == "playlist"){
+                doc.whereami = "abandon";
+            }
+            else {
+                doc.whereami = "playlist";
+            }
+            
+
+        }
+        
         
 
 
@@ -374,20 +400,20 @@ app.post('/admin/rounds/creation', function(req, res) {
     async.forEachOf (rounds, function (scenario, iii, next){ 
         
         Scenario.findOne({_id: scenario}, function(err, scenarioresult) {
-        Song.aggregate().sample(15).exec( function(err, doc) {
+        Song.find().skip(iii*12).limit(12).lean().exec( function(err, doc) {
 
         console.log(iii + "hey");
         if (err)
             console.log('error occured in the database');
 
         a = doc;
-        uniformvalues = PD.runif(15) 
+        uniformvalues = PD.rnorm(4,50,5).concat(PD.rnorm(4,50,10)).concat(PD.rnorm(4,100,10))
         a.forEach(function(element,index) {
             console.log(index);
             element.ratings =  Math.floor((Math.random() * 5) + 1);;
             element.popularity = Math.floor((Math.random() * 10) + 1);
             //element.numberOfLikes = Math.floor((Math.random() * 100010) + 1);
-            element.numberOfLikes = Math.floor(1000 * uniformvalues[index]);
+            element.numberOfLikes = Math.floor(uniformvalues[index]);
 
             var possibleTrends = ["up", "down"];
             element.trend = possibleTrends[Math.floor((Math.random() * 2) + 0)]

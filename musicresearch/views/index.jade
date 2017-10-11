@@ -1,10 +1,11 @@
 head
-	title MUSIC RESEARCH
+	title Music Research
 	link(href='/index.css', rel='stylesheet')
 	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
   
 
 
+h1 Music Research
 
 table(id="myTable")
 	tr
@@ -185,7 +186,7 @@ form(class="else playpause hidenext",ref='uploadForm2',action='/nextstep',method
 
 
 form(class="abandon playpause",ref='uploadForm',action='/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
-	input(class="abandon myButton hideplayer",type='submit',value='Abandon',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
+	input(class="abandon myButton",type='submit',value='Abandon',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
 
 
 
