@@ -177,7 +177,7 @@ app.post('/proceed', function(req, res) {
             }
         }
         doc.roundorder = listofrounds;
-        doc.whereami = = doc.roundorder[0];
+        doc.whereami = doc.roundorder[0];
         doc.save();
         res.redirect("/");
 
