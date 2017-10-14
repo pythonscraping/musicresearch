@@ -171,13 +171,13 @@ app.post('/proceed', function(req, res) {
     }, function(err, doc) {
         var listofrounds = ["round1","round2","round3","round4","round5"];
         shuffle(listofrounds);
-        for (var i = 1; i < listofrounds.length; i++) {
+        for (var i = 0; i < listofrounds.length; i++) {
             if ((i % 2)==0) {
                 listofrounds.splice(i,0,"explanation"+i);
             }
         }
         doc.roundorder = listofrounds;
-        doc.whereami = "explanation";
+        doc.whereami = = doc.roundorder[0];
         doc.save();
         res.redirect("/");
 
