@@ -9,7 +9,6 @@ h1 Music Research
 
 table(id="myTable")
 	tr
-		th
 		if(playbutton=="on")
 			th=""
 		th Add to playlist
@@ -39,11 +38,12 @@ table(id="myTable")
 		if (displayTrend=="on")
 			th Trend
 
+
+		each val in listofsongs 
+			audio(id=val._id,name=val.title)
+				source(src = val.path ,type="audio/mpeg")
 		each val in listofsongs
 			tr(value=val._id)
-				td
-					audio(id=val._id,name=val.title)
-						source(src = val.path ,type="audio/mpeg")  
 				if(playbutton=="on")
 					td
 						button(onclick="play('" + val._id + "')",class="hideplayer") 	►
