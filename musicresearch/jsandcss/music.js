@@ -104,15 +104,15 @@ var play = function(id) {
   if (id) {
 
     oldid = CURRENTLYPLAYED;
-    $("#"+oldid).parent().parent("tr").removeClass("playing");
+    $("tr[value='"+oldid+"']").removeClass("playing");
+    //$("#"+oldid).parent().parent("tr").removeClass("playing");
     var old = document.getElementById(CURRENTLYPLAYED);
     old.pause();
     old.currentTime = 0;
     CURRENTLYPLAYED = id;
   }
 
-  var d = document.getElementsByClassName(CURRENTLYPLAYED);
-  d.className += " playing";
+  $("tr[value='"+CURRENTLYPLAYED+"']").addClass("playing");
 
   var v = document.getElementById(CURRENTLYPLAYED);
   v.play();

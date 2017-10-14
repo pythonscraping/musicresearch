@@ -148,7 +148,7 @@ app.get('/home', ensureAuthenticated, function(req, res) {
 
 
 
-app.get('/explanation', ensureAuthenticated, function(req, res) {
+app.get('/explanation*', ensureAuthenticated, function(req, res) {
          res.render("explanation");
     
    
@@ -170,7 +170,13 @@ app.post('/proceed', function(req, res) {
         _id: req.user._id
     }, function(err, doc) {
         var listofrounds = ["round1","round2","round3","round4","round5"];
-        doc.roundorder = shuffle(listofrounds);
+        shuffle(listofrounds);
+        for (var i = 1; i < listofrounds.length; i++) {
+            if ((i % 2)==0) {
+                listofrounds.splice(i,0,"explanation"+i);
+            }
+        }
+        doc.roundorder = listofrounds;
         doc.whereami = "explanation";
         doc.save();
         res.redirect("/");
@@ -191,33 +197,13 @@ app.post('/nextstep', function(req, res) {
 
         if (doc.roundorder.indexOf(doc.whereami) < doc.roundorder.length-1) {
             console.log(now);
-            switch(now) {
-
-                
-                case "explanation":
+                if (now == "explanation"){
                     doc.whereami = doc.roundorder[0];
-                    break;
-                case "round1":
+                }
+
+                else {
                     doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1];
-                    break;
-                case "round2":
-                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1]
-                    break;
-                case "round3":
-                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1]
-                    break;
-                case "round4":
-                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1]
-                    break;
-                case "round5":
-                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1]
-                    break;
-                case "playlist":
-                    doc.whereami = "abandon";
-                    break;
-                default:
-                    doc.whereami = "home";
-            } 
+                }
         }
 
         else {
