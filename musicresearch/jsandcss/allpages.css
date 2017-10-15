@@ -47,6 +47,7 @@ button:hover , input:hover {
 	background-color:#f6f6f6;
 }
 
-h1, input, button {
+h1, input, button, form {
 	text-align: center;
+	display:inline-block;
 }
