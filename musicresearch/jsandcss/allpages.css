@@ -46,3 +46,7 @@ button:hover , input:hover {
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
 	background-color:#f6f6f6;
 }
+
+h1, input, button {
+	text-align: center;
+}
