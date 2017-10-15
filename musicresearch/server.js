@@ -193,6 +193,7 @@ app.post('/nextstep', function(req, res) {
         _id: req.user._id
     }, function(err, doc) {
 
+
         now = doc.whereami;
 
         if (doc.roundorder.indexOf(doc.whereami) < doc.roundorder.length-1) {
@@ -222,7 +223,13 @@ app.post('/nextstep', function(req, res) {
 
 
         doc.save();
-        res.redirect("/");
+        if(doc.whereami.indexOf("round") >= 0) {
+            res.redirect("/round");
+        }
+        else {
+            res.redirect("/");
+        }
+        
 
     });
     
