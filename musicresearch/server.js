@@ -133,7 +133,14 @@ app.get('/', ensureAuthenticated, function(req, res) {
         User.findById(req.user._id, function(err, docs) {
             
             var locationToGo = '/' + docs.whereami;
-            res.redirect(locationToGo);
+
+            if(doc.whereami.indexOf("round") >= 0) {
+            res.redirect("/round");
+            }
+            else {
+                res.redirect(locationToGo);
+            }
+            
         });
     
 });
