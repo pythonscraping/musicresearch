@@ -134,7 +134,7 @@ app.get('/', ensureAuthenticated, function(req, res) {
             
             var locationToGo = '/' + docs.whereami;
 
-            if(doc.whereami.indexOf("round") >= 0) {
+            if(docs.whereami.indexOf("round") >= 0) {
             res.redirect("/round");
             }
             else {
