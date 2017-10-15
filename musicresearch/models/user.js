@@ -33,7 +33,7 @@ var userSchema = mongoose.Schema({
     scenario: String,
     whereami: {
         type: String,
-        default: "home"
+        default: "explanation"
     },
     roundorder : [String],
     rounds: Rounds.schema
