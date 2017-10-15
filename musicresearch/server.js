@@ -179,7 +179,12 @@ app.post('/proceed', function(req, res) {
         doc.roundorder = listofrounds;
         doc.whereami = doc.roundorder[1];
         doc.save();
-        res.redirect("/");
+        if(doc.whereami.indexOf("round") >= 0) {
+            res.redirect("/round");
+        }
+        else {
+            res.redirect("/");
+        }
 
     });
     
