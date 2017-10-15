@@ -177,7 +177,7 @@ app.post('/proceed', function(req, res) {
             }
         }
         doc.roundorder = listofrounds;
-        doc.whereami = doc.roundorder[0];
+        doc.whereami = doc.roundorder[1];
         doc.save();
         res.redirect("/");
 
@@ -264,7 +264,7 @@ app.post('/abandon', function(req, res) {
         _id: req.user._id
     }, function(err, doc) {
         req.logout();
-        res.send("Abandonned successfully");
+        res.render("abandon");
 
     });
     
