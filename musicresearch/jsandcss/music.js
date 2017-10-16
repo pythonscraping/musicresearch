@@ -189,7 +189,8 @@ $(document).on("click",'.playlist',function() {
   var what = $( this );
   var data = {};
           data.id = whatwasclicked;
-          
+          what.attr('class', 'removeplaylist');
+          what.html("✓");
           $.ajax({
             type: 'POST',
             data: JSON.stringify(data),
@@ -198,8 +199,8 @@ $(document).on("click",'.playlist',function() {
                         success: function(data) {
                             console.log('success');
                             console.log(JSON.stringify(data));
-                            what.attr('class', 'removeplaylist');
-                            what.html("✓");
+                            //what.attr('class', 'removeplaylist');
+                            //what.html("✓");
                            // what.removeClass("like").addClass("unlike");
                         }});
 });
@@ -210,7 +211,8 @@ $(document).on("click",'.removeplaylist',function() {
   var what = $( this );
   var data = {};
           data.id = whatwasclicked;
-          
+           what.attr('class', 'playlist');
+                            what.html("+");
           $.ajax({
             type: 'POST',
             data: JSON.stringify(data),
@@ -220,8 +222,8 @@ $(document).on("click",'.removeplaylist',function() {
                             console.log('success');
                             console.log(JSON.stringify(data));
 
-                            what.attr('class', 'playlist');
-                            what.html("+");
+                            //what.attr('class', 'playlist');
+                            //what.html("+");
 
                            // what.removeClass("like").addClass("unlike");
                         }});
@@ -234,7 +236,7 @@ $(document).on("click",'.like',function() {
   var data = {};
           data.id = whatwasclicked;
           data.isLiked = true;
-          
+          what.removeClass("like").addClass("unlike");
           $.ajax({
             type: 'POST',
             data: JSON.stringify(data),
@@ -244,7 +246,7 @@ $(document).on("click",'.like',function() {
                             console.log('success');
                             console.log(JSON.stringify(data));
 
-                            what.removeClass("like").addClass("unlike");
+                            //what.removeClass("like").addClass("unlike");
                         }});
 });
 
@@ -257,7 +259,7 @@ $(document).on("click", '.unlike',function() {
   var data = {};
           data.id = whatwasclicked;
           data.isLiked = false;
-          
+          what.removeClass("unlike").addClass("like");
           $.ajax({
             type: 'POST',
             data: JSON.stringify(data),
@@ -266,7 +268,7 @@ $(document).on("click", '.unlike',function() {
                         success: function(data) {
                             console.log('success');
                             console.log(JSON.stringify(data));
-                            what.removeClass("unlike").addClass("like");
+                            //what.removeClass("unlike").addClass("like");
                         }});
 });
 
