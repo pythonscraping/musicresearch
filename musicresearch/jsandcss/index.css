@@ -18,7 +18,7 @@ body {
 	cursor:defaut;
     user-select: none; 
     font-family: Lato;
-    background-image: url("https://yellowkies.yg-sechskies.com/img/zone/main/bg.jpg");
+    background-image: url("bg.jpg");
 }
 
 #progressBar { 
