@@ -6,7 +6,8 @@ head
 
 h1 Music Research
 
-p=info.instructions
+if(info)
+	p=info.instructions
 
 form(class="abandon playpause",ref='uploadForm',action='/proceed',method='post',encType="multipart/form-data",id="myCoolForm")
 	input(class="proceed",type='submit',value='Next',onclick="return confirm('You agree that you have read and understood the research purposes.');")
