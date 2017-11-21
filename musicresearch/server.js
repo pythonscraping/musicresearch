@@ -19,7 +19,7 @@ function ensureAuthenticated(req, res, next) {
  }
 
  else {
-    res.render(safari);
+    res.render("safari");
  }
 
 }
