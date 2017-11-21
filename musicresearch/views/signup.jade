@@ -1,0 +1,18 @@
+- var price = Math.floor(Math.random() * 10000000000000)
+
+head
+	link(rel="stylesheet",href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
+	link(href='/background.css', rel='stylesheet')
+
+h1 McGillFy Login
+
+
+
+
+
+form(action="/signup" method="post")
+	label Please enter a username
+	input(type="text",class="form-control",name="email",value=price)
+	input(type="hidden",class="form-control",name="password",value=price)
+
+	button(type="submit") Signup

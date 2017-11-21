@@ -84,6 +84,7 @@ var Song = require('../models/music.js')
 var Round = require('../models/round.js');
 var Rounds = require('../models/rounds.js');
 
+var Administration = require('../models/administration.js');
 
 
 exports.main2 = (req,res) => {
@@ -119,7 +120,7 @@ exports.main2 = (req,res) => {
 }
 
 
-exports.main = (req,res) => {
+exports.mainOld = (req,res) => {
 
 
 
@@ -213,4 +214,103 @@ exports.main = (req,res) => {
 
 exports.main3 = (req,res) => {
           res.send("ho");
+}
+
+
+
+exports.main = (req,res) => {
+
+         Administration.findOne({}, function(err,admin){
+
+          User.findById(req.user._id, function(err, docs) {
+
+           
+             
+            whereami = docs.whereami;
+            if (true) {
+            
+
+
+
+            var listoflikes = docs.songsLiked;
+            var useratings = docs.useratings;
+            var playlist = docs.playlist;
+
+
+            var arrayoflikes = [];
+            for (var i = 0; i < listoflikes.length; i++) {
+                if (listoflikes[i].isLiked) {
+                    arrayoflikes.push(listoflikes[i].id);
+                }
+
+            }
+
+
+
+
+            rounds = docs.rounds;
+
+            if(!rounds) {
+                res.redirect("/admin/rounds/creation");
+            }
+
+            else {
+                listofsongs = rounds[whereami].listofsongs;
+                console.log(listofsongs);
+                shuffle(listofsongs);
+                console.log(listofsongs);
+                userinfo = rounds[whereami].scenario;
+
+
+                sortedPopularity = userinfo.sortedPopularity;
+                if (sortedPopularity == "on") {
+                    listofsongs.sort(function(a, b) {
+                        return b.popularity - a.popularity;
+                    })
+                }
+
+                sortedLikes = userinfo.sortedLikes;
+                if (sortedLikes == "on") {
+                    listofsongs.sort(function(a, b) {
+                        return b.numberOfLikes - a.numberOfLikes;
+                    })
+                }
+
+                //var whatround = "Hey";
+
+                var whatround = docs.roundorder.indexOf(docs.whereami);
+
+                res.render('index', {
+                title: 'Hey',
+                message: 'Hello there!',
+                listofsongs: listofsongs,
+                displayPopularity: userinfo.displayPopularity,
+                displayLikes: userinfo.displayLikes,
+                displayRatings: userinfo.displayRatings,
+                displayTrend: userinfo.displayTrend,
+                canSortPopularity: userinfo.canSortPopularity,
+                canSortLikes: userinfo.canSortLikes,
+                arrayoflikess: arrayoflikes,
+                playlist: playlist,
+                useratings: useratings,
+                displayLikesNumber : userinfo.displayLikesNumber,
+                displayRatingsTotal: userinfo.displayRatingsTotal,
+                round: whatround,
+                info: admin
+
+
+                });
+
+            }
+            
+            
+
+            }
+
+            else {
+                res.redirect("/admin/scenario/creation");
+            }
+        });
+
+    }); //admin End
 }

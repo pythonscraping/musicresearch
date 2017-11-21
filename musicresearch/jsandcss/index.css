@@ -7,6 +7,34 @@ th:hover {
 	 cursor:defaut ;
 }
 
+
+
+
+
+.playbutton {
+	visibility: hidden ;
+	background-color: black;
+	border-style: dotted;
+
+	border-color: black;
+}
+
+
+.playbutton:hover {
+	background-color: white;
+	color:black !important;
+	border-style: dotted;
+	border-color: white;
+}
+.playbutton:hover {
+	 	font-weight: bold;
+}
+tr:hover .playbutton {
+	visibility: visible;
+	 border-color: black;
+	 color: white;
+}
+
 tr {
 	border-bottom: 1px solid #f6f6f6;
     border-collapse: collapse;
@@ -14,14 +42,14 @@ tr {
 
 
 body {
-	background-color: #FFCE00;
+	background-color: #44a08d;
 	cursor:defaut;
     user-select: none; 
     font-family: Lato;
-    background-image: url("bg.jpg");
+   /* background-image: url("bg.jpg");*/
 }
 
-#progressBar { 
+#progressBar{ 
 	border-radius: 25px;
 	border:1px solid grey; 
 	background-color: #FFFCF6; 
@@ -37,10 +65,19 @@ body {
 	border-bottom-right-radius: 0px;
 	background-color: grey;
 	height:10px;
-	display: block;
+	display: block; 
   	float:left;
 }
 
+#progress2{
+	border-radius: 25px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	background-color: grey;
+	height:10px;
+	display: block; 
+  	float:left;
+}
 
 #mainplayer,.mainplayer{ 
 	position: absolute;
@@ -54,7 +91,7 @@ body {
 button  {
  	margin-left: 10;
  	display: inline-block;
- 	background-color: #FFCE00;
+ 	background-color: white
 
 	border-radius: 25px;
 	font-size : 30px;
@@ -183,7 +220,7 @@ button.playpause  {
 
 
  .greyPop {
- 	color: grey;
+ 	color: white;
  }
 
   .blackPop {
@@ -225,6 +262,21 @@ button.playpause  {
  	position:fixed;
  	right:15;
 	bottom:15;
+ }
+
+
+   .instructions {
+ 	position:fixed;
+ 	left:15;
+	top:15;
+ }
+
+
+
+   .closemodal {
+ 	position:fixed;
+ 	right:15;
+	top:15;
  }
 
  tr:not(:first-child):hover {
@@ -296,3 +348,129 @@ h1 {
 #astar1,#astar2,#astar3,#astar4,#astar5 {
 	color:red;
 }
+
+
+
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+       background-color: : #E0EAFC;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    color:black;
+}
+
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+
+
+.modal2 {
+	text-align: center;
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+       background-color: : #E0EAFC;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    color:black;
+}
+
+[draggable] {
+    user-select: none;
+}
+
+.column {
+	font-size: auto;
+
+    height: 21vh;
+    width:  21vh;
+    display: inline-block;
+    background-color: white;
+    margin-right: 5px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 3px #000;
+    text-align: center;
+    cursor: move;
+    -webkit-overflow-scrolling: auto
+}
+    .column header {
+    	font-size: auto;
+        color: #fff;
+        background: black;
+        text-shadow: #000 0 1px;
+        box-shadow: 5px;
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        pointer-events: none;
+    }
+    .column.over {
+        border: 2px dashed #000;
+    }
+
+.column img {
+    max-height: 20%;
+    width: auto;
+    object-fit: contain;
+     height: auto;
+  overflow: hidden;
+}
+
+.column > div , .column > p {
+	 height: auto;
+  overflow: hidden;
+}
+
+#columns {
+
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: 34px;
+	min-height: 50px;
+	border-color: black;
+	border-radius: 10px;
+	border-width:2px;
+	border-style:double;
+	background-color: white;
+	-webkit-overflow-scrolling: auto
+}
+
+
+
+#mainplayer2,.mainplayer2{ 
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	width: 99%;
+	bottom: 2%;
+	text-align: center;
+ }
+
+ .playbutton2 {
+ 	border-style: dashed;
+ 	border-color: black;
+ }

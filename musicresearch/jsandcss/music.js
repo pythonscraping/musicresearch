@@ -1,10 +1,16 @@
 
 
+
+
 var CURRENTLYPLAYED = document.getElementsByTagName("audio")[0].id;
 
 
+var MINIMUMSONGPLAYED = parseInt(document.getElementById("songplayedMin").value);
+var MINIMUMTIMEPLAYED = parseInt(document.getElementById("durationMin").value)*1000;
+var MINIMUMPLAYLIST   = parseInt(document.getElementById("playlistMin").value);
+//alert(MINIMUMTIMEPLAYED);
 
-
+canplay = true;
 
 function noBack(){window.history.forward()}
 noBack();
@@ -34,7 +40,6 @@ if(parseInt(localStorage.getItem("nogoback"))!=1) {
 */
 
 
-var MINIMUMSONGPLAYED = 0 ;
  localStorage.setItem("songscount", 0);
 
 
@@ -79,9 +84,43 @@ var candoubleclick = function() {
 
 }
 
+
+
 candoubleclick();
 
+
+
+var check = function() {
+
+  var favorites_ = [];
+        $('#columns > .column').each(function(){ 
+        favorites_.push($(this).attr("id"));
+
+        
+      });
+
+
+console.log(parseInt(localStorage.getItem("songscount")));
+console.log(favorites_.length);
+      if (parseInt(localStorage.getItem("songscount")) > MINIMUMSONGPLAYED - 1 && favorites_.length+1 >= MINIMUMPLAYLIST){
+        $(".hidenext").css("visibility", "initial");
+      }
+      else {
+        $(".hidenext").css("visibility", "hidden");
+      }
+}
+
+
 var play = function(id) {
+
+
+
+   
+
+
+  if(canplay){
+
+
 
   $(document).off("dblclick", "tr");
 
@@ -91,15 +130,18 @@ var play = function(id) {
   
   $(".hideplayer").css("visibility", "hidden");
   $(".mainplayer").css("display", "initial");
+  canplay = false;
   setTimeout(function(){ 
       $(".mainplayer").css("display", "none");
       $(".hideplayer").css("visibility", "initial");
-      if (parseInt(localStorage.getItem("songscount")) > MINIMUMSONGPLAYED ){
-        $(".hidenext").css("visibility", "initial");
-      }
+
+
+      check();
+      canplay=true;
+
       candoubleclick();
 
-  }, 3000);
+  }, MINIMUMTIMEPLAYED);
 
   if (id) {
 
@@ -129,6 +171,11 @@ var play = function(id) {
 
   $("#"+CURRENTLYPLAYED).parent().parent("tr").addClass("playing");
   //$("#"+CURRENTLYPLAYED).remove();
+}
+
+else {
+  alert("please wait");
+}
 }
 
 var pause = function() {
@@ -184,7 +231,37 @@ document.getElementById('progressBar').addEventListener('click', function (e) {
 
 
 $(document).on("click",'.playlist',function() {
+
+
+
+  check();
+
+
   var whatwasclicked = $( this ).attr("value");
+  var artist = $( this ).attr("artist");
+  var title = $( this ).attr("title");
+  var htmlstring = 
+  '<div id="'+whatwasclicked+'". class="column container2">'
+  + "<header> " + artist  + "</header> "  
+  + "<p>" +  title + "</p> " 
+  + '<input type="button" class="playbutton2" value="PLAY" songid='+ whatwasclicked+ '>  </input>'
+  + '</div>';
+
+  $( "#columns" ).append(htmlstring);
+
+
+  $('.playbutton2').click(function(event){
+  
+  console.log("hey");
+
+  var whatwasclicked = $( this ).attr("songid");
+  console.log(whatwasclicked);
+  play2(whatwasclicked);
+
+});
+
+
+
   console.log(whatwasclicked);
   var what = $( this );
   var data = {};
@@ -208,6 +285,10 @@ $(document).on("click",'.playlist',function() {
 $(document).on("click",'.removeplaylist',function() {
   var whatwasclicked = $( this ).attr("value");
   console.log(whatwasclicked);
+  check();
+
+
+  $( "#"+whatwasclicked + ".column" ).remove();
   var what = $( this );
   var data = {};
           data.id = whatwasclicked;
@@ -230,7 +311,12 @@ $(document).on("click",'.removeplaylist',function() {
 });
 
 $(document).on("click",'.like',function() {
+
+
+
   var whatwasclicked = $( this ).attr("value");
+
+
   console.log(whatwasclicked);
   var what = $( this );
   var data = {};
@@ -479,6 +565,85 @@ $(document).on("mouseleave",'.removeplaylist',function(){
 
 }
 ); 
+
+
    
 
 
+
+
+$('.nextstep').click(function(event){
+  event.preventDefault();
+  pause();
+
+  $('.modal').css('display', 'block');
+
+  $('.modal').click(function(){
+  
+     //$(this).css('display', 'none');
+  });
+
+
+  $('#sorted').click(function(){
+    console.log("hey");
+    var favorites = [];
+    $('#columns > .column').each(function(){ 
+    favorites.push($(this).attr("id"));
+
+        
+    });
+
+    $.post( "favorites", { favorites: favorites} , function(response){
+                          console.log("something received");
+                          window.location.href = response.redirect;
+                      });
+  });
+
+
+
+  $('.closel').click(function(event){
+  console.log("what");
+
+  $('.modal').css('display', 'none');
+});
+
+});
+
+
+
+
+
+
+var play2 = function(id) {
+
+pause();
+
+  var v = document.getElementById(id);
+  v.play();
+
+
+  var displayedTitle = document.getElementById("displayedTitle2");
+  displayedTitle.innerHTML = v.getAttribute("name");
+
+
+
+}
+
+
+
+
+
+
+$('.instructions').click(function(event){
+  event.preventDefault();
+  pause();
+
+  $('.modal2').css('display', 'block');
+
+  $('.modal2').click(function(){
+  
+     $(this).css('display', 'none');
+  });
+
+
+});

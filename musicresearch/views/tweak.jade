@@ -1,0 +1,56 @@
+h1 tweak
+
+
+
+style.
+	.html {
+		height:80%;
+		line-height:80%;
+		padding-left:0;
+		padding-top:0;
+		padding-bottom:0.4em;
+		padding-right: 0.4em;
+	}
+
+	textarea {
+	width:90%;
+	}
+
+
+if(info)
+	form(action="/admin/tweak" method="post")
+		label Number of songs to put in playlist
+		input(type="text",class="form-control",name="playlistMin",value=info.playlistMin)
+		br
+		label Minimum number of songs to play
+		input(type="text",class="form-control",name="songplayedMin",value=info.songplayedMin)
+		br
+		label Minimum song duration
+		input(type="text",class="form-control",name="durationMin",value=info.durationMin)
+
+		br
+
+		textarea(class="form-control",name="instructions",class="html")=info.instructions
+		br 
+		br
+		br
+		button(type="submit") Update
+
+else
+		form(action="/admin/tweak" method="post")
+			label Number of songs to put in playlist
+			input(type="text",class="form-control",name="playlistMin")
+			br
+			label Minimum number of songs to play
+			input(type="text",class="form-control",name="songplayedMin")
+			br
+			label Minimum song duration
+			input(type="text",class="form-control",name="durationMin")
+
+			br
+
+			textarea(class="form-control",name="instructions",size="100", class="html")
+			br 
+			br
+			br
+			button(type="submit") Update

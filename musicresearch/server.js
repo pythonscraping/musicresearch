@@ -1,16 +1,27 @@
 var express = require('express');
 var app = express();
 var passport = require('passport');
+require('./config/passport')(passport); 
 FacebookStrategy = require('passport-facebook').Strategy;
 var async = require('async')
+var useragent = require('useragent');
 
 var PD = require("probability-distributions");
 
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
+
+ if(!useragent.is(req.headers['user-agent']).safari) {
+
+      if (req.isAuthenticated()) {
         return next(); 
     }
-    res.redirect('/auth/facebook');
+    res.redirect('/signup');
+ }
+
+ else {
+    res.render(safari);
+ }
+
 }
 
 
@@ -42,7 +53,7 @@ app.use(fileUpload());
 var User = require('./models/user.js');
 var Scenario = require('./models/scenario.js');
 var Song = require('./models/music.js')
-
+var Administration = require('./models/administration.js');
 var Round = require('./models/round.js');
 var Rounds = require('./models/rounds.js');
 
@@ -146,7 +157,18 @@ app.get('/', ensureAuthenticated, function(req, res) {
 });
 
 app.get('/home', ensureAuthenticated, function(req, res) {
-         res.render("welcome");
+
+
+
+    Administration.findOne({},function(err,doc){
+        if(doc){
+            res.render("welcome", {info:doc});
+        }
+        else {
+            res.render("welcome");
+        }
+    });
+         
     
    
 });
@@ -170,7 +192,7 @@ function shuffle(a) {
     return a;
 }
 
-app.post('/proceed', function(req, res) {
+app.post('/proceed2', function(req, res) {
     console.log("user abandoning");
 
     User.findOne({
@@ -198,7 +220,57 @@ app.post('/proceed', function(req, res) {
 });
 
 
-app.post('/nextstep', function(req, res) {
+
+app.post('/nextstep', ensureAuthenticated, function(req, res) {
+    console.log("user going to the next round");
+
+    User.findOne({
+        _id: req.user._id
+    }, function(err, doc) {
+
+
+        now = doc.whereami;
+
+        if (doc.roundorder.indexOf(doc.whereami) < doc.roundorder.length-1) {
+            console.log(now);
+                if (now == "explanation"){
+                    doc.whereami = doc.roundorder[0];
+                }
+
+                else {
+                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1];
+                }
+        }
+
+        else {
+            if(doc.whereami == "playlist"){
+                doc.whereami = "abandon";
+            }
+            else {
+                doc.whereami = "playlist";
+            }
+            
+
+        }
+        
+        
+
+
+
+        doc.save();
+        if(doc.whereami.indexOf("round") >= 0) {
+            res.redirect("/round");
+        }
+        else {
+            res.redirect("/");
+        }
+        
+
+    });
+    
+});
+
+app.get('/nextstep', ensureAuthenticated, function(req, res) {
     console.log("user going to the next round");
 
     User.findOne({
@@ -277,7 +349,7 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
 
 
 
-app.post('/abandon', function(req, res) {
+app.post('/abandon', ensureAuthenticated, function(req, res) {
     console.log("user abandoning");
     User.findOneAndRemove({
         _id: req.user._id
@@ -290,7 +362,7 @@ app.post('/abandon', function(req, res) {
 });
 
 
-app.get('/abandon', function(req, res) {
+app.get('/abandon', ensureAuthenticated, function(req, res) {
     console.log("user abandoning");
     User.findOneAndRemove({
         _id: req.user._id
@@ -488,7 +560,8 @@ User.findById(req.user._id, function(err, docs) {
                     console.log(songs);
 
                 res.render('playlist', {
-                    playlist: songs
+                    playlist: songs,
+                    userid: req.user._id
                 });
                 })
 
@@ -720,3 +793,181 @@ var createrounds = require("./createrounds.js")
 app.use("/rounds", createrounds);   
 
 app.listen(1234);
+
+
+
+
+
+
+
+
+app.post('/proceed', ensureAuthenticated, function(req, res) {
+    console.log("user abandoning");
+
+    User.findOne({
+        _id: req.user._id
+    }, function(err, doc) {
+       
+
+        Rounds.find({}).lean().exec( function(err, rounds){
+
+             var chosenROUNDS=rounds[0];
+             var listofrounds = ["round1","round2","round3","round4","round5"];
+
+             for (var i = 0; i < listofrounds.length; i++) {
+                 newListOfSongs = chosenROUNDS[listofrounds[i]].listofsongs;
+
+                 uniformvalues = PD.rnorm(4,50,5).concat(PD.rnorm(4,50,10)).concat(PD.rnorm(4,100,10))
+
+                newListOfSongs.forEach(function(element,index) {
+                    console.log(index);
+                    element.ratings =  ((Math.random() * 5)).toFixed(1);;
+                    element.popularity = Math.floor((Math.random() * 10) + 1);
+                    //element.numberOfLikes = Math.floor((Math.random() * 100010) + 1);
+                    element.numberOfLikes = Math.floor(uniformvalues[index]);
+
+                    var possibleTrends = ["up", "down", "equal"];
+                    element.trend = possibleTrends[Math.floor((Math.random() * 3) + 0)]
+                    element.trendValue = Math.floor((Math.random() * 5) + 1);;
+
+                });
+
+                function shuffle(a) {
+                    for (let i = a.length; i; i--) {
+                        let j = Math.floor(Math.random() * i);
+                        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+                    }
+                    return a;
+                }
+
+                shuffle(newListOfSongs);
+
+             }
+
+             doc.rounds = chosenROUNDS;
+
+
+             doc.save(function(err,newuser){
+
+
+                 var listofrounds = ["round1","round2","round3","round4","round5"];
+                shuffle(listofrounds);
+                /*
+                for (var i = 0; i < listofrounds.length; i++) {
+                    if ((i % 2)==0) {
+                        listofrounds.splice(i,0,"explanation"+i);
+                    }
+                }*/
+                newuser.roundorder = listofrounds;
+                newuser.whereami = newuser.roundorder[1];
+                newuser.save();
+                if(newuser.whereami.indexOf("round") >= 0) {
+                    res.redirect("/round");
+                }
+                else {
+                    res.redirect("/");
+                }
+
+             });
+
+
+
+        });
+
+    });
+    
+});
+
+
+
+app.post('/favorites', function(req, res) {
+    console.log(req.body);
+    var a = {redirect: "/nextstep"};
+    res.send(a);
+});
+
+
+
+
+
+app.post('/signup', passport.authenticate('local-signup', {
+        successRedirect : '/', // redirect to the secure profile section
+        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+    }));
+
+ app.post('/login', passport.authenticate('local-login', {
+        successRedirect : '/', // redirect to the secure profile section
+        failureRedirect : '/login', // redirect back to the signup page if there is an error
+    }));
+
+
+
+app.get('/signup', function(req, res) {
+
+    if(!useragent.is(req.headers['user-agent']).safari) {
+
+        res.render("signup");
+    }
+
+    else {
+        res.render("safari");
+    }
+});
+
+app.get('/login', function(req, res) {
+
+        res.render("login");
+    
+});
+
+
+
+
+app.get('/admin/tweak', ensureAuthenticated, function(req, res) {
+    
+    Administration.findOne({},function(err,doc){
+        if(doc){
+            res.render("tweak", {info:doc});
+        }
+        else {
+            res.render("tweak");
+        }
+    });
+    
+});
+
+
+app.post('/admin/tweak', ensureAuthenticated, function(req, res) {
+    
+
+    Administration.remove({}, function(){
+
+        var info = req.body;
+        console.log(req.body);
+
+        newAdmin = new Administration();
+        newAdmin.playlistMin = info.playlistMin;
+        newAdmin.songplayedMin = info.songplayedMin;
+        newAdmin.durationMin = info.durationMin;
+        newAdmin.instructions = info.instructions;
+
+        newAdmin.save(function(err,doc){
+            if(doc){
+                res.render("tweak", {info:doc});
+            }
+            else {
+                res.render("tweak");
+            }
+        });
+    });
+    
+});
+
+
+app.get('/admin/tweak/view', ensureAuthenticated, function(req, res) {
+    
+    Administration.findOne({},function(err,doc){
+        res.send(doc);
+    });
+    
+});

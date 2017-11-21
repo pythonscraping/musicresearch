@@ -1,15 +1,21 @@
 head
-	title Music Research
+	title McGillfy
+	script(src="/DragDropTouch.js")
+	script(src="/jquery-3.2.1.min.js")
 	link(href='/index.css', rel='stylesheet')
-	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
   
 
 
-h1 Music Research
+h1="McGillfy - Round" +round
+
+if(info)
+	input(type="hidden", id="playlistMin", value=info.playlistMin)
+	input(type="hidden", id="songplayedMin", value=info.songplayedMin)
+	input(type="hidden", id="durationMin", value=info.durationMin)
 
 table(id="myTable")
 	tr
-		if(playbutton=="on")
+		if(true)
 			th=""
 		th Add to playlist
 		th Artist
@@ -44,14 +50,14 @@ table(id="myTable")
 				source(src = val.path ,type="audio/mpeg")
 		each val in listofsongs
 			tr(value=val._id)
-				if(playbutton=="on")
+				if(true)
 					td
-						button(onclick="play('" + val._id + "')",class="hideplayer") 	►
+						button(onclick="play('" + val._id + "')",class="playbutton") 	►
 				td 
 					if (playlist[playlist.findIndex(x => x.id== val._id)])
-						button(class="removeplaylist",value=val._id) ✓
+						button(class="removeplaylist",value=val._id, artist=val.artist,title=val.title) ✓
 					else
-						button(class="playlist",value=val._id) 	+
+						button(class="playlist",value=val._id,artist=val.artist,title=val.title) 	+
 				td=val.artist
 				td=val.title
 				if (displayRatings=="on")
@@ -182,12 +188,13 @@ div(id="mainplayer",class="hideplayer")
 
 
 div(class="mainplayer")
-	p 30 seconds listening
+	if(info)
+		p=info.durationMin+ " seconds listening"
 
 
 
-form(class="else playpause",ref='uploadForm2',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm2")
-	input(class="else myButton hidenext",type='submit',value='Next step')
+form(class="else playpause ",ref='uploadForm2',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm2")
+	input(class="else myButton hidenext nextstep",type='submit',value='Next step')
 
 
 
@@ -195,7 +202,34 @@ form(class="abandon playpause",ref='uploadForm',action='/abandon',method='post',
 	input(class="abandon myButton",type='submit',value='Quit',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
 
 
-
+input(class="instructions myButton",type='submit',value='Instructions')
 
 
 script(src="/music.js")
+
+
+div(class="modal")
+
+	h1 Please sort by order of preference. 
+	div(id="columns") 
+
+	div(id="mainplayer2",class="hideplayer")
+		span="Playing : "
+		div(id="displayedTitle2") No song played
+
+	button(id="sorted", class="asbestos-flat-button") Validate
+
+	div(class="closemodal closel")
+		input(class="myButton closemodal closel",type='button',value='X')
+
+
+
+div(class="modal2")
+
+	h1 Instructions
+	h3="(Click anywhere to close)"
+	if(info)
+		p=info.instructions
+
+
+script(src="/index2.js")
