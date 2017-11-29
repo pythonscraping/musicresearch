@@ -55,8 +55,9 @@ tr {
 
 
 body {
-	background-color: #fefbe5;
+	background-color: #F5F3EE;
 
+    background-image: url("bg.jpg");
 	cursor:defaut;
     user-select: none; 
     font-family: Lato;
