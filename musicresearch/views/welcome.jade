@@ -12,7 +12,7 @@ div(class="center")
 	h3="Thanks for telling us your music preference. "
 
 	if(info)
-		p=info.instructions
+		p!=info.instructions
 
 	form(class="",ref='uploadForm',action='/proceed',method='post',encType="multipart/form-data",id="myCoolForm")
 		input(class="proceed myButton",type='submit',value='Next',onclick="return confirm('You agree that you have read and understood the research purposes.');")
