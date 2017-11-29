@@ -198,7 +198,7 @@ app.post('/proceed2', function(req, res) {
     User.findOne({
         _id: req.user._id
     }, function(err, doc) {
-        var listofrounds = ["round1","round2","round3","round4","round5"];
+        var listofrounds = ["round1","round2","round3","round4"];
         shuffle(listofrounds);
         for (var i = 0; i < listofrounds.length; i++) {
             if ((i % 2)==0) {
@@ -561,7 +561,8 @@ User.findById(req.user._id, function(err, docs) {
 
                 res.render('playlist', {
                     playlist: songs,
-                    userid: req.user._id
+                    userid: req.user._id,
+                    playlistExt: docs.playlistExt
                 });
                 })
 
@@ -881,9 +882,23 @@ app.post('/proceed', ensureAuthenticated, function(req, res) {
 
 
 app.post('/favorites', function(req, res) {
-    console.log(req.body);
-    var a = {redirect: "/nextstep"};
-    res.send(a);
+    User.findById(req.user._id, function(err, userinfo) {
+        var info = req.body.favorites;
+        console.log(info);
+        console.log(userinfo.whereami);
+        console.log(userinfo.roundorder.indexOf(userinfo.whereami));
+        userinfo.playlistExt.push({
+            roundnumber: userinfo.roundorder.indexOf(userinfo.whereami),
+            realround:userinfo.whereami,
+            favorites: info
+        });
+        userinfo.save(function(err,doc){
+
+            var a = {redirect: "/nextstep"};
+            res.send(a);
+        });
+    });
+
 });
 
 
@@ -905,8 +920,12 @@ app.post('/signup', passport.authenticate('local-signup', {
 app.get('/signup', function(req, res) {
 
     if(!useragent.is(req.headers['user-agent']).safari) {
-
-        res.render("signup");
+        if(Object.keys(req.query).length === 0){
+            res.render("signup");
+        }
+        else {
+            res.render("signup", {back: req.query});
+        }
     }
 
     else {

@@ -241,10 +241,8 @@ $(document).on("click",'.playlist',function() {
   var artist = $( this ).attr("artist");
   var title = $( this ).attr("title");
   var htmlstring = 
-  '<div id="'+whatwasclicked+'". class="column container2">'
-  + "<header> " + artist  + "</header> "  
-  + "<p>" +  title + "</p> " 
-  + '<input type="button" class="playbutton2" value="PLAY" songid='+ whatwasclicked+ '>  </input>'
+  '<div id="'+whatwasclicked+'". class="column container2">'  
+  + "<p>" + artist + " - "  +title + "</p> " 
   + '</div>';
 
   $( "#columns" ).append(htmlstring);

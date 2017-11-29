@@ -23,6 +23,13 @@ var Songsaved = mongoose.Schema({
 });
 
 
+var Roundplaylist = mongoose.Schema({
+    roundnumber: Number,
+    realround: String,
+    favorites: [String]
+});
+
+
 var userSchema = mongoose.Schema({
      local            : {
         email        : String,
@@ -42,7 +49,9 @@ var userSchema = mongoose.Schema({
     },
     roundorder : [String],
     rounds: Rounds.schema,
-    ip : String
+    ip : String,
+    playlistExt : [Roundplaylist]
+
 });
 
 

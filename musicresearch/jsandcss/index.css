@@ -7,8 +7,21 @@ th:hover {
 	 cursor:defaut ;
 }
 
+.center{
+	text-align: center;
 
+	font-size : 20px;
+}
 
+.left-align {
+	text-align: left;
+
+}
+.top-right{
+	right: 20px;
+	position: fixed;
+	top:7px;
+}
 
 
 .playbutton {
@@ -42,7 +55,9 @@ tr {
 
 
 body {
-	background-color: #44a08d;
+	background-color: #F5F3EE;
+
+    background-image: url("bg.jpg");
 	cursor:defaut;
     user-select: none; 
     font-family: Lato;
@@ -89,9 +104,8 @@ body {
  }
 
 button  {
- 	margin-left: 10;
  	display: inline-block;
- 	background-color: white
+ 	background-color: #f2d30a;
 
 	border-radius: 25px;
 	font-size : 30px;
@@ -118,10 +132,12 @@ button  {
 }
 
 table {
+  display: inline-table;
+  float:left;
   border-spacing: 15px;
   border-collapse: collapse;
   text-align: center;
-  width: 100%;
+  width: 80%;
   height: calc(100vh - 200px - 4%);
 }
 
@@ -351,22 +367,26 @@ h1 {
 
 
 
-
-
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
+	display: none;
+}
+
+.modall {
+
+
+ 	text-align: center;
+  height: calc(100vh - 200px - 4%);
+	float: left;
+    display: inline; /* Hidden by default */
+    position: block; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    width: 20%; /* Full width */
     overflow: auto; /* Enable scroll if needed */
-       background-color: : #E0EAFC;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+       background-color: #fefbe5;
     color:black;
+
 }
 
 
@@ -382,14 +402,21 @@ background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, F
 
 
 .modal2 {
+
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+	opacity: 0.95;
 	text-align: center;
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    top: 35px;
+     left: 50%;
+    transform: translateX(-50%);
+    width: 50%; /* Full width */
+    height: 80%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
        background-color: : #E0EAFC;  /* fallback for old browsers */
 background: -webkit-linear-gradient(to right, #CFDEF3, #E0EAFC);  /* Chrome 10-25, Safari 5.1-6 */
@@ -405,12 +432,13 @@ background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, F
 .column {
 	font-size: auto;
 
-    height: 21vh;
-    width:  21vh;
+
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+    width:  100%;
     display: inline-block;
-    background-color: white;
-    margin-right: 5px;
-    border-radius: 10px;
+    background-color: #fefbe5;
     box-shadow: inset 0 0 3px #000;
     text-align: center;
     cursor: move;
@@ -446,16 +474,17 @@ background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, F
 }
 
 #columns {
-
+	width:  90%;
 	display: flex;
 	flex-wrap: wrap;
-	margin-right: 34px;
+
+    margin-left: auto;
+    margin-right: auto;
 	min-height: 50px;
 	border-color: black;
-	border-radius: 10px;
 	border-width:2px;
 	border-style:double;
-	background-color: white;
+	background-color: #fefbe5;
 	-webkit-overflow-scrolling: auto
 }
 
@@ -474,3 +503,21 @@ background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, F
  	border-style: dashed;
  	border-color: black;
  }
+
+
+#sorted {
+ 	margin: 0 auto;
+ 	margin-top: 30px;
+ }
+
+
+ .red{
+ 	color:red;
+ }
+
+
+    input[type=radio] {
+    transform: scale(2); 
+    margin-right: 15px;
+    margin-left: 15px;
+}

@@ -1,18 +1,57 @@
 - var price = Math.floor(Math.random() * 10000000000000)
 
+
 head
 	link(rel="stylesheet",href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
 	link(href='/background.css', rel='stylesheet')
 
-h1 McGillFy Login
+	link(href='/index.css', rel='stylesheet')
+
+h1 McGilltiFy 
 
 
 
 
+div(class="center")
+	form(action="/signup" method="post")
 
-form(action="/signup" method="post")
-	label Please enter a username
-	input(type="text",class="form-control",name="email",value=price)
-	input(type="hidden",class="form-control",name="password",value=price)
+		if(back)
+			p Welcome back to the experiment ! 
+			br
+			input(type="hidden",class="form-control",name="email",value=back.back)
+			input(type="hidden",class="form-control",name="password",value=back.back)
 
-	button(type="submit") Signup
+		else
+			p Please remember the following link so that if you are interrupted or have to leave the experiment and return later, you can use this link to continue your experiment.
+			a(href="http://ec2-34-215-131-37.us-west-2.compute.amazonaws.com"+"/signup?back="+price)="http://ec2-34-215-131-37.us-west-2.compute.amazonaws.com/signup?back="+price
+
+			input(type="hidden",class="form-control",name="email",value=price)
+			input(type="hidden",class="form-control",name="password",value=price)
+
+
+		br
+		br
+		br
+
+
+
+		each genre in ["Jazz", "Rock", "Pop"]
+			p Please indicate your preference for each of the following genres using the scale provided
+			br
+			h4=genre +" : "
+			br
+			input(type="radio",name=genre)
+			strong="0"
+			label=" - I have never hear of this genre"
+			br 
+			br
+			each answer, index in ["Dislike Strongly","Dislike Moderately","Dislike a little","Neither like nor dislike","Like Moderately","Like Strongly"]
+				input(type="radio",name=genre)
+				strong=""+index
+				label=" - "+answer
+
+			br
+
+
+		br
+		button(type="submit", class="myButton") Continue

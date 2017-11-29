@@ -6,9 +6,22 @@ h1="Your playlist"
 
 
 p Please find below the links to the songs your saved from your playlist
-each song in playlist
-	a(target="_blank",href="https://www.jamendo.com/search?q"+ song.title)=song.title
-	br
+
+
+
+
+
+
+
+each play in playlistExt
+	h3="Round " + play.roundnumber
+
+	each idd in play.favorites
+		each song in playlist
+			if(song._id==idd)
+				a(target="_blank",href="https://www.jamendo.com/search?q"+ song.title)=song.title
+				br
+
 
 br
 br 

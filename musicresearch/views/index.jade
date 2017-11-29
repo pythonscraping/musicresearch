@@ -6,20 +6,25 @@ head
   
 
 
-h1="McGillfy - Round" +round
+h1="McGilltify"
+
+
+
+div(class="top-right")
+	h3= "Round " +round + " of 4"
 
 if(info)
 	input(type="hidden", id="playlistMin", value=info.playlistMin)
 	input(type="hidden", id="songplayedMin", value=info.songplayedMin)
 	input(type="hidden", id="durationMin", value=info.durationMin)
-
+div(id="hey")
 table(id="myTable")
 	tr
 		if(true)
 			th=""
 		th Add to playlist
-		th Artist
-		th Title
+		th(class="left-align") Artist
+		th(class="left-align") Title
 		if (displayRatings=="on")
 			th Rate
 		if (displayRatingsTotal=="on")
@@ -58,8 +63,8 @@ table(id="myTable")
 						button(class="removeplaylist",value=val._id, artist=val.artist,title=val.title) ✓
 					else
 						button(class="playlist",value=val._id,artist=val.artist,title=val.title) 	+
-				td=val.artist
-				td=val.title
+				td(class="left-align")=val.artist
+				td(class="left-align")=val.title
 				if (displayRatings=="on")
 					td
 						if (useratings[useratings.findIndex(x => x.id== val._id)])
@@ -205,22 +210,15 @@ form(class="abandon playpause",ref='uploadForm',action='/abandon',method='post',
 input(class="instructions myButton",type='submit',value='Instructions')
 
 
-script(src="/music.js")
 
 
-div(class="modal")
 
-	h1 Please sort by order of preference. 
+div(class="modall")
+
+	h1 Playlist. 
 	div(id="columns") 
-
-	div(id="mainplayer2",class="hideplayer")
-		span="Playing : "
-		div(id="displayedTitle2") No song played
-
-	button(id="sorted", class="asbestos-flat-button") Validate
-
-	div(class="closemodal closel")
-		input(class="myButton closemodal closel",type='button',value='X')
+	h3(class="red modal") Please sort your playlist by order of preference by drag and dropping songs.
+	button(id="sorted", class="myButton modal") Confirm playlist
 
 
 
@@ -230,6 +228,9 @@ div(class="modal2")
 	h3="(Click anywhere to close)"
 	if(info)
 		p=info.instructions
+	button(class="top-right myButton") X
 
 
 script(src="/index2.js")
+
+script(src="/music.js")
