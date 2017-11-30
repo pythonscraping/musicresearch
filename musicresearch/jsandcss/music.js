@@ -242,7 +242,7 @@ $(document).on("click",'.playlist',function() {
   var title = $( this ).attr("title");
   var htmlstring = 
   '<div id="'+whatwasclicked+'". class="column container2">'  
-  + "<p>" + artist + " - "  +title + "</p> " 
+  + "<li>" + artist + " - "  +title + "</li> " 
   + '</div>';
 
   $( "#columns" ).append(htmlstring);
@@ -590,6 +590,8 @@ $('.nextstep').click(function(event){
 
         
     });
+      $('#sorted').css('display', 'none');
+      $('.nextstep').css('display', 'none');
 
     $.post( "favorites", { favorites: favorites} , function(response){
                           console.log("something received");
@@ -634,7 +636,6 @@ pause();
 
 $('.instructions').click(function(event){
   event.preventDefault();
-  pause();
 
   $('.modal2').css('display', 'block');
 

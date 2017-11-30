@@ -5,10 +5,9 @@
 
 body {
 	background-color: #FFCE00;
-	cursor:defaut;
-    user-select: none; 
     font-family: Lato;
     background-image: url("bg.jpg");
+    text-align: center;
 }
 button, input {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -49,4 +48,33 @@ button:hover , input:hover {
 
 h1, input, button, form {
 	text-align: center;
+
+}
+
+
+.userplaylist {
+		font-size: auto;
+
+
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 30px;
+    width:  20%;
+    float: left;
+    height: 30%;
+    background-color: white;
+    margin-left: 10px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+
+.bye{
+	float: left;
+	width: 100%;
+}
+
+ul {
+
+   list-style-type: decimal;
 }

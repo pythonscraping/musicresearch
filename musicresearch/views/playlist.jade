@@ -14,18 +14,26 @@ p Please find below the links to the songs your saved from your playlist
 
 
 each play in playlistExt
-	h3="Round " + play.roundnumber
-
-	each idd in play.favorites
-		each song in playlist
-			if(song._id==idd)
-				a(target="_blank",href="https://www.jamendo.com/search?q"+ song.title)=song.title
-				br
+	div(class="userplaylist")
+		h3="Round " + play.roundnumber
+		ul
+			each idd in play.favorites
+				each song in playlist
+					if(song._id==idd)
+						li
+							a(target="_blank",href="https://www.jamendo.com/search?q"+ song.title)=song.title
+							br
 
 
 br
 br 
+br
 
-strong="Your code is : "+userid
-form(class="abandon playpause",ref='uploadForm',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm")
-	input(class="proceed",type='submit',value='End experiment')
+
+div(class="bye")
+	br
+	br
+	strong="Your code is : "+userid
+	form(class="abandon playpause",ref='uploadForm',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm")
+		br
+		input(class="proceed",type='submit',value='End experiment')

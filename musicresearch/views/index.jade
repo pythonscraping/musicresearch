@@ -3,7 +3,7 @@ head
 	script(src="/DragDropTouch.js")
 	script(src="/jquery-3.2.1.min.js")
 	link(href='/index.css', rel='stylesheet')
-  
+ 
 
 
 h1="McGilltify"
@@ -11,7 +11,7 @@ h1="McGilltify"
 
 
 div(class="top-right")
-	h3= "Round " +round + " of 4"
+	strong= "Round " +round + " of 4"
 
 if(info)
 	input(type="hidden", id="playlistMin", value=info.playlistMin)
@@ -215,10 +215,14 @@ input(class="instructions myButton",type='submit',value='Instructions')
 
 div(class="modall")
 
-	h1 Playlist. 
-	div(id="columns") 
-	h3(class="red modal") Please sort your playlist by order of preference by drag and dropping songs.
-	button(id="sorted", class="myButton modal") Confirm playlist
+	br
+	strong Playlist 
+	br
+	br
+	ul
+		div(id="columns") 
+		h3(class="red modal") Please sort your playlist by order of preference by drag and dropping songs.
+		button(id="sorted", class="myButton modal") Confirm playlist
 
 
 

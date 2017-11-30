@@ -58,7 +58,6 @@ body {
 	background-color: #F5F3EE;
 
     background-image: url("bg.jpg");
-	cursor:defaut;
     user-select: none; 
     font-family: Lato;
    /* background-image: url("bg.jpg");*/
@@ -108,7 +107,9 @@ button  {
  	background-color: #f2d30a;
 
 	border-radius: 25px;
-	font-size : 30px;
+	height: 30px;
+	width: 30px;
+	font-size: 130%;
 	/*border:1px solid grey; */
 	border: none;
 	outline: none;
@@ -435,12 +436,13 @@ background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, F
 
     margin-left: auto;
     margin-right: auto;
-    height: auto;
+    min-height: 30px;
     width:  100%;
     display: inline-block;
-    background-color: #fefbe5;
+    background-color: white;
     box-shadow: inset 0 0 3px #000;
-    text-align: center;
+    text-align: left;
+    padding-left: 10px;
     cursor: move;
     -webkit-overflow-scrolling: auto
 }
@@ -480,7 +482,7 @@ background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, F
 
     margin-left: auto;
     margin-right: auto;
-	min-height: 50px;
+	min-height: 20px;
 	border-color: black;
 	border-width:2px;
 	border-style:double;
@@ -497,6 +499,7 @@ background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, F
 	width: 99%;
 	bottom: 2%;
 	text-align: center;
+	max-height: 200px;
  }
 
  .playbutton2 {
@@ -508,6 +511,8 @@ background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, F
 #sorted {
  	margin: 0 auto;
  	margin-top: 30px;
+ 	height: auto;
+ 	width: auto;
  }
 
 
@@ -521,3 +526,31 @@ background: linear-gradient(to right, #CFDEF3, #E0EAFC); /* W3C, IE 10+/ Edge, F
     margin-right: 15px;
     margin-left: 15px;
 }
+
+
+
+
+@media screen and (max-width: 1200px) {
+
+  body{
+  	color:green;
+  }
+}
+
+
+
+@media screen and (max-height: 600px) {
+  body{
+  	color:green;
+  }
+  font-size: 120%;
+}
+
+
+ul {
+   list-style-position: inside;
+   padding: 0;
+   list-style-type: decimal;
+
+}
+
