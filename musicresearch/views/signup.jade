@@ -46,7 +46,7 @@ div(class="center")
 					label(class=label, for=genre+0, class="unknown")=" I have never hear of this genre"
 					each answer, index in ["Dislike Strongly","Dislike Moderately","Dislike a little","Neither like nor dislike","Like a little","Like Moderately","Like Strongly"]
 						&nbsp;
-						span=" --------- "
+						span=" --- "
 						&nbsp;
 						input(checked='',type="radio",name=genre, value=index,id=genre+(index+1), style="display:none")
 						label(class="label",for=genre+(index+1))
