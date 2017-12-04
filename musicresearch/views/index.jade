@@ -52,7 +52,7 @@ table(id="myTable")
 
 
 		each val in listofsongs 
-			audio(id=val._id,name=val.title)
+			audio(id=val._id,name=val.title,preload="none")
 				source(src = val.path ,type="audio/mpeg")
 		each val in listofsongs
 			tr(value=val._id)
