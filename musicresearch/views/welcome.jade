@@ -1,18 +1,70 @@
 head
-	title MUSIC RESEARCH
+	
+	title McTunes
+	link(rel="shortcut icon" href="https://image.freepik.com/free-icon/black-music-icon_318-9277.jpg")
 	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
-	link(href='/index.css', rel='stylesheet')
+	
+	link(rel="stylesheet",href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
+	link(href='/background.css', rel='stylesheet')
 	script(src="/allpages.js")
 
-h1 Music Research
+h1 McTunes
 
 
 
 div(class="center")
-	h3="Thanks for telling us your music preference. "
-
-	if(info)
-		p!=info.instructions
 
 	form(class="",ref='uploadForm',action='/proceed',method='post',encType="multipart/form-data",id="myCoolForm")
-		input(class="proceed myButton",type='submit',value='Next',onclick="return confirm('You agree that you have read and understood the research purposes.');")
+
+		div(class="second")
+			span(class="smaller")
+				p Before we start the experiment, please complete 
+					strong STOMP
+					span (Short Test of Music Preference) developed by GozLab at Unverisity of Texas at Austin.
+				p This test has been proved to successfully find out people who have similar music taste.
+				p Please indicate your preference for each of the following genres using the scale provided
+
+
+
+			table
+				tr
+					each answer, index in ["Genre","I have never heard of this genre","Dislike Strongly","Dislike Moderately","Dislike a little","Neither like nor dislike","Like a little","Like Moderately","Like Strongly"]
+						th
+							if(index > 0)
+								span(class="red")=""+(index-1)+". "
+								span=answer
+				each genre in ["Blues", "Classical", "Country", "Dance/Electronica", "Folk","Rap/Hip-Hop","Soul/Funk","Religious", "Alternative", "Jazz", "Rock","Pop","Heavy Metal","Soundtracks/Theme Song"]
+					tr
+
+						div(class="vertical-align")
+
+							div(class="btns")
+
+								td
+									strong=genre +" : "
+								td
+									input(type="radio",name=genre,id=genre+0,value=0, style="display:none")
+									label(class=label, for=genre+0, class="unknown")
+										span(class="invisible")="I have never heard of this genre"
+								each answer, index in ["Dislike Strongly","Dislike Moderately","Dislike a little","Neither like nor dislike","Like a little","Like Moderately","Like Strongly"]
+									td
+										input(checked='',type="radio",name=genre, value=index,id=genre+(index+1), style="display:none")
+										label(class="label",for=genre+(index+1))
+											span(class="invisible")=""+answer
+										input(class="verify",type="radio",name=genre,id="null",value="", style="display:none",checked="checked")
+			br
+			div(class="filleverything red")
+				p Please give your preference for every genre.
+			input(type="button", class="test myButton",value="Confirm Preference")
+		br
+
+		div(class="instructions")
+
+			h3="Thanks for telling us your music preference. "
+
+			if(info)
+				p!=info.instructions
+			input(class="proceed myButton",type='submit',value='Next',onclick="return confirm('You agree that you have read and understood the research purposes.');")
+
+
+		script(src="/survey.js")

@@ -191,6 +191,10 @@ table {
 
 .playpause {
 	width: 50px;
+	vertical-align:middle;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: 30px;
 }
 
 .playpause.pause {
@@ -272,17 +276,15 @@ button.playpause  {
  .abandon {
  	position:fixed;
  	left:15;
-	bottom:15;
+	top:15;
  }
 
   .else {
- 	position:fixed;
- 	right:15;
-	bottom:15;
  }
 
 
    .instructions {
+   	visibility: hidden;
  	position:fixed;
  	left:15;
 	top:15;
@@ -374,18 +376,20 @@ h1 {
 
 .modall {
 
+	border-width: 1px;
+	border-style: solid;
 
  	text-align: center;
   height: calc(100vh - 200px - 4%);
 	float: left;
     display: inline; /* Hidden by default */
-    position: block; /* Stay in place */
+    position: relative; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
-    width: 20%; /* Full width */
-    overflow: auto; /* Enable scroll if needed */
-       background-color: #fefbe5;
+    width: 19.5%; /* Full width */
+    overflow: auto; /* Enable scroll if needed
+       background-color: #fefbe5; */
     color:black;
 
 }
@@ -554,3 +558,32 @@ ul {
 
 }
 
+.explain {
+	text-align: left;
+	padding-left: 10px;
+	bottom: 0;
+	position: absolute;
+}
+
+
+.click{
+	color: green;
+}
+
+
+
+
+
+
+.bottom-right{
+	top: 20px;
+	display: none;
+	background-color: white !important;
+	background: white;
+}
+
+
+
+div.columns > div:nth-of-type(odd) {
+color: blue; 
+}

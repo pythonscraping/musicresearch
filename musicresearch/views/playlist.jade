@@ -33,7 +33,12 @@ br
 div(class="bye")
 	br
 	br
-	strong="Your code is : "+userid
 	form(class="abandon playpause",ref='uploadForm',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm")
+		span What is your favorite round ? 
+		select
+			each round in ["round1","round2","round3","round4"]
+				option(name="favround",value=round)=round
 		br
-		input(class="proceed",type='submit',value='End experiment')
+		br
+		br
+		input(class="proceed",type='submit',value='Confirm favorite Round')

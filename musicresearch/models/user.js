@@ -50,7 +50,11 @@ var userSchema = mongoose.Schema({
     roundorder : [String],
     rounds: Rounds.schema,
     ip : String,
-    playlistExt : [Roundplaylist]
+    playlistExt : [Roundplaylist],
+    firstsurvey: mongoose.Schema.Types.Mixed,
+    finalsurvey: mongoose.Schema.Types.Mixed,
+    favoriteround: mongoose.Schema.Types.Mixed
+
 
 });
 

@@ -11,7 +11,6 @@ var MINIMUMPLAYLIST   = parseInt(document.getElementById("playlistMin").value);
 //alert(MINIMUMTIMEPLAYED);
 
 canplay = true;
-
 function noBack(){window.history.forward()}
 noBack();
 window.onload=noBack;
@@ -100,13 +99,18 @@ var check = function() {
       });
 
 
-console.log(parseInt(localStorage.getItem("songscount")));
-console.log(favorites_.length);
-      if (parseInt(localStorage.getItem("songscount")) > MINIMUMSONGPLAYED - 1 && favorites_.length+1 >= MINIMUMPLAYLIST){
-        $(".hidenext").css("visibility", "initial");
+
+console.log(favorites_.length,MINIMUMPLAYLIST);
+//console.log(parseInt(localStorage.getItem("songscount")));
+//console.log(favorites_.length);
+      if (parseInt(localStorage.getItem("songscount")) > MINIMUMSONGPLAYED - 1 && favorites_.length >= MINIMUMPLAYLIST){
+        $(".nextstep").css("display", "none");
+        $("#sorted").css("display", "initial");
       }
+
       else {
-        $(".hidenext").css("visibility", "hidden");
+        $(".nextstep").css("display", "initial");
+        $("#sorted").css("display", "none");
       }
 }
 
@@ -248,6 +252,7 @@ $(document).on("click",'.playlist',function() {
   $( "#columns" ).append(htmlstring);
 
 
+    check();
   $('.playbutton2').click(function(event){
   
   console.log("hey");
@@ -255,7 +260,7 @@ $(document).on("click",'.playlist',function() {
   var whatwasclicked = $( this ).attr("songid");
   console.log(whatwasclicked);
   play2(whatwasclicked);
-
+    check();
 });
 
 
@@ -283,10 +288,11 @@ $(document).on("click",'.playlist',function() {
 $(document).on("click",'.removeplaylist',function() {
   var whatwasclicked = $( this ).attr("value");
   console.log(whatwasclicked);
-  check();
 
 
   $( "#"+whatwasclicked + ".column" ).remove();
+
+  check();
   var what = $( this );
   var data = {};
           data.id = whatwasclicked;
@@ -303,7 +309,7 @@ $(document).on("click",'.removeplaylist',function() {
 
                             //what.attr('class', 'playlist');
                             //what.html("+");
-
+                              check();
                            // what.removeClass("like").addClass("unlike");
                         }});
 });
@@ -567,23 +573,10 @@ $(document).on("mouseleave",'.removeplaylist',function(){
 
    
 
-
-
-
-$('.nextstep').click(function(event){
-  event.preventDefault();
-  pause();
-
-  $('.modal').css('display', 'block');
-
-  $('.modal').click(function(){
-  
-     //$(this).css('display', 'none');
-  });
-
-
   $('#sorted').click(function(){
     console.log("hey");
+
+    if (confirm('Are you sure you want to submit your playlist which is ordered by your preferences ?')) {
     var favorites = [];
     $('#columns > .column').each(function(){ 
     favorites.push($(this).attr("id"));
@@ -597,15 +590,19 @@ $('.nextstep').click(function(event){
                           console.log("something received");
                           window.location.href = response.redirect;
                       });
+
+  }
+  else {
+
+  }
   });
 
 
 
-  $('.closel').click(function(event){
-  console.log("what");
 
-  $('.modal').css('display', 'none');
-});
+$('.nextstep').click(function(event){
+  
+   $('.bottom-right').css('display', 'initial').fadeOut(8000);
 
 });
 
@@ -646,3 +643,6 @@ $('.instructions').click(function(event){
 
 
 });
+
+
+check();

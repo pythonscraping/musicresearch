@@ -5,12 +5,15 @@ $('.test').click(function(event){
 
 
   if ( ! $("input.verify").is(':checked') ){
-  	alert("click");
+  	$(".second").css( "display", "none" );
+  	$(".instructions").css( "display", "block" );
   }
   else {
 
-  	$("input.verify:not(:checked)").parent().css( "background-color", "inherit" );
-  	$("input.verify:checked").parent().css( "background-color", "red" );
+  	$("input.verify:not(:checked)").parent().parent().css( "background-color", "inherit" );
+  	$("input.verify:checked").parent().parent().css( "background-color", "red" );
+  	$(".filleverything").css( "display", "block" );
+  	
 
   }
 

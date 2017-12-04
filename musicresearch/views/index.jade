@@ -1,12 +1,13 @@
 head
-	title McGillfy
+	title McTunes
+	link(rel="shortcut icon" href="https://image.freepik.com/free-icon/black-music-icon_318-9277.jpg")
 	script(src="/DragDropTouch.js")
 	script(src="/jquery-3.2.1.min.js")
 	link(href='/index.css', rel='stylesheet')
  
 
 
-h1="McGilltify"
+h1="McTunes"
 
 
 
@@ -57,7 +58,7 @@ table(id="myTable")
 			tr(value=val._id)
 				if(true)
 					td
-						button(onclick="play('" + val._id + "')",class="playbutton") 	►
+						button(onclick="play('" + val._id + "')",class="playbutton")="►"+" "
 				td 
 					if (playlist[playlist.findIndex(x => x.id== val._id)])
 						button(class="removeplaylist",value=val._id, artist=val.artist,title=val.title) ✓
@@ -180,8 +181,9 @@ table(id="myTable")
 
 div(id="mainplayer",class="hideplayer")
 	div(id="displayedTitle") No song played
-	button(class="playpause pause",onclick="pause()") PAUSE
-	button(class="playpause play",onclick="unpause()") PLAY
+	
+	img(src="http://pluspng.com/img-png/pause-button-png-rounded-pause-button-free-icon-512.png",class="playpause pause",onclick="pause()") 
+	img(src="http://cdn.onlinewebfonts.com/svg/img_217916.png",class="playpause play",onclick="unpause()") 
 	="     "
 	="     "
 	span(id="currentTime") 0 : 00
@@ -198,8 +200,7 @@ div(class="mainplayer")
 
 
 
-form(class="else playpause ",ref='uploadForm2',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm2")
-	input(class="else myButton hidenext nextstep",type='submit',value='Next step')
+
 
 
 
@@ -214,15 +215,50 @@ input(class="instructions myButton",type='submit',value='Instructions')
 
 
 div(class="modall")
-
 	br
 	strong Playlist 
 	br
-	br
+
+	h5(class="red") Please sort your playlist by order of preference by drag and dropping songs.
 	ul
-		div(id="columns") 
-		h3(class="red modal") Please sort your playlist by order of preference by drag and dropping songs.
-		button(id="sorted", class="myButton modal") Confirm playlist
+		div(id="columns", class="columns") 
+			each val in listofsongs
+				if (playlist[playlist.findIndex(x => x.id== val._id)])
+					div(id=val._id, class="column container2")
+						li=val.artist+" - "+val.title
+
+
+
+
+	input(class="else myButton nextstep",type='submit',value='Confirm playlist')
+	button(id="sorted", class="myButton modal") Confirm playlist
+
+	div(class="bottom-right red")
+			if(info.playlistMin > 0)
+				p="Please add at least " + info.playlistMin +"  songs in your playlist"
+
+			- if(parseInt(info.songplayedMin) > 0)
+				p="Please play at least " + info.songplayedMin +"  songs."
+
+	div(class="explain")
+		p 
+			strong Play
+			span : 
+			span(class="click") click 
+			strong ► 
+			span or 
+			span(class="click") double click 
+			span  on song
+		p 
+			strong Add 
+			span to playlist: 
+			span(class="click") click 
+			strong +
+		p 
+			strong Remove
+			span : 
+			span(class="click") click 
+			strong ✔
 
 
 
@@ -233,6 +269,8 @@ div(class="modal2")
 	if(info)
 		p!=info.instructions
 	button(class="top-right myButton") X
+
+
 
 
 script(src="/index2.js")

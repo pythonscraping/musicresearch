@@ -1,0 +1,52 @@
+
+- var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+head
+	title McTunes
+	link(rel="shortcut icon" href="https://image.freepik.com/free-icon/black-music-icon_318-9277.jpg")
+	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+	
+	link(rel="stylesheet",href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
+	link(href='/background.css', rel='stylesheet')
+	script(src="/allpages.js")
+
+h1 McTunes
+form(class="finalquestions",ref='uploadForm',action='/finalquestions',method='post',encType="multipart/form-data",id="myCoolForm")
+	div(class="alternatecolors")
+		each question,questionindex in finalquestions
+			div(class="new-align")
+
+				div(class="btns")
+					
+					p(class="bold")=(questionindex+1)+". "+question.question +" : "
+					if(question.type=="percentage")
+						each answer, index in question.answers
+							br
+							span(class="")=""+alphabet[index]+"."
+							span=" "+answer +" "
+							input(class="verify",type="number",name=question.question.split(".").join(""), value="",id=question.question+(index))
+
+					else if (question.type=="optional")
+						textarea(name=question.question)
+					else if (question.type=="check")
+						each answer, index in question.answers
+							br
+							span(class="")=""+alphabet[index]+"."
+							span=" "+answer +" "
+							input(class="",type="checkbox",name=question.question.split(".").join(""), value=answer,id=question.question+(index))
+
+					else
+						each answer, index in question.answers
+							input(checked='',type="radio",name=question.question.split(".").join(""), value=index,id=question.question+(index), style="display:none")
+							label(class="label altsize",for=question.question+(index))
+								span(class="")=""+alphabet[index]+"."
+								span=" "+answer +" "
+							input(class="verify",type="radio",name=question.question.split(".").join(""),id="null",value="", style="display:none",checked="checked")
+
+						if(question.type=="specify")
+							p If Others, Please Specify:
+							textarea(name=question.question)
+
+
+	input(type="submit", class="test myButton",value="Confirm Preference")
+
+script(src="/finalquestions.js")

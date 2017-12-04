@@ -70,7 +70,8 @@ var findSongInformation = function(err, userinfo, req, res) {
             canSortLikes: userinfo.canSortLikes,
             arrayoflikess: arrayoflikes,
             playlist: playlist,
-            useratings: useratings
+            useratings: useratings,
+            playlistExt: userinfo.playlistExt
         });
 
     });
@@ -252,6 +253,11 @@ exports.main = (req,res) => {
 
             if(!rounds) {
                 res.redirect("/admin/rounds/creation");
+            }
+
+
+            else if (rounds[whereami]=== "undefined" ) {
+                 res.redirect("/");
             }
 
             else {

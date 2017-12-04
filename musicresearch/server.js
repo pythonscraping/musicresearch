@@ -79,7 +79,12 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 app.use(require('express-session')({
     secret: 'sdgdrgasrgvranb25webfbvwcf',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie : {
+    maxAge: 360000000// see below
+    }
+
+
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -127,6 +132,133 @@ passport.use(new FacebookStrategy({
 
 
 
+app.get("/finalcode", ensureAuthenticated, function(req,res){
+
+
+
+     
+      User.findOne({
+        _id: req.user._id
+    }, function(err, doc) {
+
+        if(doc.whereami=="finalcode"){
+
+    res.render("finalcode", {
+        userid: req.user._id,
+    });
+        }
+
+        else {
+            res.send("404");
+        }
+
+    });
+});
+
+
+
+
+app.post("/finalquestions", ensureAuthenticated, function(req,res){
+
+
+
+    User.findOne({
+        _id: req.user._id
+    }, function(err, doc) {
+
+        console.log("You are he re");
+        console.log(doc.whereami);
+
+        doc.finalsurvey = req.body;
+        doc.whereami = "finalcode";
+
+        doc.save(function(err,doc) {
+            console.log(err);
+            console.log("is the error");
+            res.redirect("/");
+        });
+
+
+    });
+   
+
+
+
+
+
+});
+
+
+app.get("/finalquestions", ensureAuthenticated, function(req,res){
+    var finalquestions = new Array();
+    finalquestions.push({
+        question: "How do you like McTunes’ interface?",
+        answers: ["Very Satisfied","Satisfied", "Neutral", "Unsatisfied", "Very Unsatisfied"]
+    })
+    finalquestions.push({
+        question: "How do you like the songs you listened to ?",
+        answers: ["Very Satisfied","Satisfied", "Neutral", "Unsatisfied", "Very Unsatisfied"]
+    })
+
+    finalquestions.push({
+        question: "How many songs on the website you have heard before?",
+        answers: ["1","2", "3", "4", "More than 4"]
+    })
+
+    finalquestions.push({
+        question: "How often do you listen to any type of music during a day?",
+        answers: ["All day long","Multiple times a day", "Once a day"]
+    })
+
+
+
+    
+    finalquestions.push({
+        question: "Do you have any suggestions on how we can improve our website? (optional)",
+        type:"optional"
+    })
+
+    finalquestions.push({
+        question: "We will now present you with a list of ways to listen to the music. Please assign a percentage to each source that reflects the amount of time you listen to music through that source, with a total of 100%.",
+        answers: ["On-demand streaming services, i.e. Spotify, Apple Music","Websites, i.e. YouTube", "Once a day"],
+        type: "percentage"
+    })
+
+    finalquestions.push({
+        question: "If you choose a) in question 6, do you subscribe to the membership?",
+        answers: ["Yes", "No"]
+    })
+
+    finalquestions.push({
+        question: "If you choose d) in question 6, where does your music come from?",
+        answers: ["iTunes and other music sites that you have to pay to buy the music", "Sites such as SoundCloud that you don’t have to pay to buy the music",
+        "YouTube","Others"]
+    })
+
+
+    finalquestions.push({
+        question: "What is your age ?",
+        answers: [""],
+        type: "percentage"
+    })
+
+
+    finalquestions.push({
+        question: "What is the highest education level you’ve achieved?)",
+        answers: ["High school","College","Bachelor Degree","Postgraduate","Others"],
+        type: "specify"
+    })
+
+    finalquestions.push({
+        question: "What best describes your current career situation? (check all that apply)",
+        answers: ["Student","Self-employed","Full-time employed","Part-time employed","Unemployed"],
+        type: "check"
+    })
+
+    finalquestions.push({
+        question: "Please let us know where you are from?)",
+        answers: ["U.S.A","Canada","Central/South America","Europe","Asia/Oceania","Australia/New Zealand","Africa"]
+    })
 
 
 
@@ -136,6 +268,8 @@ passport.use(new FacebookStrategy({
 
 
 
+    res.render("finalquestions", {finalquestions :finalquestions})
+});
 
 
 
@@ -230,8 +364,16 @@ app.post('/nextstep', ensureAuthenticated, function(req, res) {
 
 
         now = doc.whereami;
+        console.log(now);
 
-        if (doc.roundorder.indexOf(doc.whereami) < doc.roundorder.length-1) {
+
+        if(doc.whereami == "playlist"){
+                doc.favoriteround = req.body;
+                doc.whereami = "finalquestions";
+                
+                
+            }
+        else if (doc.roundorder.indexOf(doc.whereami) < doc.roundorder.length-1) {
             console.log(now);
                 if (now == "explanation"){
                     doc.whereami = doc.roundorder[0];
@@ -243,12 +385,9 @@ app.post('/nextstep', ensureAuthenticated, function(req, res) {
         }
 
         else {
-            if(doc.whereami == "playlist"){
-                doc.whereami = "abandon";
-            }
-            else {
+
+           
                 doc.whereami = "playlist";
-            }
             
 
         }
@@ -257,13 +396,15 @@ app.post('/nextstep', ensureAuthenticated, function(req, res) {
 
 
 
-        doc.save();
-        if(doc.whereami.indexOf("round") >= 0) {
-            res.redirect("/round");
-        }
-        else {
-            res.redirect("/");
-        }
+        doc.save(function(err,doc){
+
+            if(doc.whereami.indexOf("round") >= 0) {
+                res.redirect("/round");
+            }
+            else {
+                res.redirect("/");
+            }
+        });
         
 
     });
@@ -293,7 +434,7 @@ app.get('/nextstep', ensureAuthenticated, function(req, res) {
 
         else {
             if(doc.whereami == "playlist"){
-                doc.whereami = "abandon";
+                doc.whereami = "finalquestions";
             }
             else {
                 doc.whereami = "playlist";
@@ -447,7 +588,7 @@ app.get('/admin/scenario/visualize', function(req, res) {
 });
 
 app.post('/admin/scenario', function(req, res) {
-    console.log(req.body);
+    //console.log(req.body);
 
     var scenario = new Scenario(req.body);
 
@@ -488,7 +629,7 @@ app.post('/admin/rounds/creation', function(req, res) {
         a = doc;
         uniformvalues = PD.rnorm(4,50,5).concat(PD.rnorm(4,50,10)).concat(PD.rnorm(4,100,10))
         a.forEach(function(element,index) {
-            console.log(index);
+            //console.log(index);
             element.ratings =  ((Math.random() * 5)).toFixed(1);;
             element.popularity = Math.floor((Math.random() * 10) + 1);
             //element.numberOfLikes = Math.floor((Math.random() * 100010) + 1);
@@ -553,15 +694,14 @@ User.findById(req.user._id, function(err, docs) {
                 var listofids = [];
                 for (var i = docs.playlist.length - 1; i >= 0; i--) {
                     listofids.push(docs.playlist[i].id);
-                    console.log(listofids);
+                    //console.log(listofids);
                 }
 
                 Song.find({_id : listofids}, function(err,songs){
-                    console.log(songs);
+                    //console.log(songs);
 
                 res.render('playlist', {
                     playlist: songs,
-                    userid: req.user._id,
                     playlistExt: docs.playlistExt
                 });
                 })
@@ -805,6 +945,10 @@ app.listen(1234);
 app.post('/proceed', ensureAuthenticated, function(req, res) {
     console.log("user abandoning");
 
+
+
+    var firstsurveyInfo = req.body;
+
     User.findOne({
         _id: req.user._id
     }, function(err, doc) {
@@ -846,7 +990,7 @@ app.post('/proceed', ensureAuthenticated, function(req, res) {
              }
 
              doc.rounds = chosenROUNDS;
-
+             doc.firstsurvey = firstsurveyInfo;
 
              doc.save(function(err,newuser){
 

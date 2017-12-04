@@ -2,11 +2,16 @@
 
 
 head
+
 	link(rel="stylesheet",href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
+
+	title McTunes
+	link(rel="shortcut icon" href="https://image.freepik.com/free-icon/black-music-icon_318-9277.jpg")
+	script(src="/allpages.js")
 	link(href='/background.css', rel='stylesheet')
 	script(src="/jquery-3.2.1.min.js")
 
-h1 McGilltiFy 
+h1 McTunes 
 
 
 
@@ -14,19 +19,20 @@ h1 McGilltiFy
 div(class="center")
 	form(action="/signup" method="post")
 
-		if(back)
-			p Welcome back to the experiment ! 
-			br
-			input(type="hidden",class="form-control",name="email",value=back.back)
-			input(type="hidden",class="form-control",name="password",value=back.back)
 
-		else
-			p Please remember the following link so that if you are interrupted or have to leave the experiment and return later, you can use this link to continue your experiment.
-			a(href="http://ec2-34-215-131-37.us-west-2.compute.amazonaws.com"+"/signup?back="+price)="http://ec2-34-215-131-37.us-west-2.compute.amazonaws.com/signup?back="+price
+		p Welcome to McTunes!
 
-			input(type="hidden",class="form-control",name="email",value=price)
-			input(type="hidden",class="form-control",name="password",value=price)
 
+		P Please write down the following code so that if you are interrupted or have to leave the experiment and return later, you can use this code to continue your experiment.
+
+		p Code: 
+			strong=price
+
+		span Please input your code above to continue: 
+		input(type="number",class="form-control number",name="email",value="")
+		input(type="hidden",class="form-control",name="password",value=price)
+
+		
 
 		br
 		br
@@ -34,32 +40,9 @@ div(class="center")
 
 
 
-		p Please indicate your preference for each of the following genres using the scale provided
-		each genre in ["Jazz", "Rock", "Pop"]
-			br
-
-			div(class="vertical-align")
-
-				div(class="btns")
-					strong=genre +" : "
-					input(type="radio",name=genre,id=genre+0,value=0, style="display:none")
-					label(class=label, for=genre+0, class="unknown")=" I have never hear of this genre"
-					each answer, index in ["Dislike Strongly","Dislike Moderately","Dislike a little","Neither like nor dislike","Like a little","Like Moderately","Like Strongly"]
-						&nbsp;
-						span=" --- "
-						&nbsp;
-						input(checked='',type="radio",name=genre, value=index,id=genre+(index+1), style="display:none")
-						label(class="label",for=genre+(index+1))
-							span(class="red")=""+(index+1)
-							span=" "+answer +" "
-						input(class="verify",type="radio",name=genre,id="null",value="", style="display:none",checked="checked")
-
-			br
+		
 
 
 		br
 		button(type="submit", class="myButton") Continue
-		button(type="input", class="myButton test") Continue Test
 
-
-		script(src="/survey.js")
