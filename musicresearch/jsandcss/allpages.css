@@ -62,7 +62,8 @@ h1, input, button, form {
     width:  20%;
     float: left;
     height: 30%;
-    background-color: white;
+    border-width: 1px;
+    border-style: solid;
     margin-left: 10px;
     text-align: left;
     padding-left: 10px;
