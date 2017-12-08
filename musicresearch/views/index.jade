@@ -3,16 +3,94 @@ head
 	link(rel="shortcut icon" href="https://image.freepik.com/free-icon/black-music-icon_318-9277.jpg")
 	script(src="/DragDropTouch.js")
 	script(src="/jquery-3.2.1.min.js")
+	link(href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet")
 	link(href='/index.css', rel='stylesheet')
  
 
 
-h1="McTunes"
 
 
+div(class="loader")
+	div(class="padloader")
+		div(class="sk-folding-cube")
+			div(class="sk-cube1 sk-cube")
+			div(class="sk-cube2 sk-cube")
+			div(class="sk-cube3 sk-cube")
+			div(class="sk-cube4 sk-cube")
+		p Finding music that best match your preferences.
+		p Please hold on.
 
-div(class="top-right")
-	strong= "Round " +round + " of 4"
+
+header
+	ol(class="lens-profile-timeline")
+		if(round==1)
+			li(class="",style="left: 0;")
+				p Music Preference
+			li(class="active", style="left: 21.7441860465%;")
+				p Round 1
+			li(class="",style="left: 34.7441860465%;")
+				p Round 2
+			li(style="left: 47.7441860465%;")
+				p Round 3
+			li(style="left: 60.7441860465%;")
+				p Round 4
+			li(style="left: 75.7441860465%;")
+				p Final survey
+			li(style="right: 0;")
+				p End
+		else if (round==2)
+			li(class="",style="left: 0;")
+				p Music Preference
+			li(class="", style="left: 21.7441860465%;")
+				p Round 1
+			li(class="active",style="left: 34.7441860465%;")
+				p Round 2
+			li(style="left: 47.7441860465%;")
+				p Round 3
+			li(style="left: 60.7441860465%;")
+				p Round 4
+			li(style="left: 75.7441860465%;")
+				p Final survey
+			li(style="right: 0;")
+				p End
+		else if (round==3)
+			li(class="",style="left: 0;")
+				p Music Preference
+			li(class="", style="left: 21.7441860465%;")
+				p Round 1
+			li(style="left: 34.7441860465%;")
+				p Round 2
+			li(class="active",style="left: 47.7441860465%;")
+				p Round 3
+			li(style="left: 60.7441860465%;")
+				p Round 4
+			li(style="left: 75.7441860465%;")
+				p Final survey
+			li(style="right: 0;")
+				p End
+		else if (round==4)
+			li(class="",style="left: 0;")
+				p Music Preference
+			li(class="", style="left: 21.7441860465%;")
+				p Round 1
+			li(style="left: 34.7441860465%;")
+				p Round 2
+			li(style="left: 47.7441860465%;")
+				p Round 3
+			li(class="active",style="left: 60.7441860465%;")
+				p Round 4
+			li(style="left: 75.7441860465%;")
+				p Final survey
+			li(style="right: 0;")
+				p End
+
+
+h1(class="title")="McTunes"
+
+
+if(false)
+	div(class="top-right")
+		strong= "Round " +round + " of 4"
 
 if(info)
 	input(type="hidden", id="playlistMin", value=info.playlistMin)

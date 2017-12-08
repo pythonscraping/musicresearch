@@ -10,11 +10,25 @@ head
 
 
 
+header
 
+	h1(class="title")
+		img(src="/mctunes.svg",width="190")
+
+	ol(class="lens-profile-timeline")
+		li(class="active",style="left: 0;")
+			p Music Preference
+		li(style="left: 21.7441860465%;")
+			p Round 1
+		li(style="left: 31.7441860465%;")
+			p Round 2
+		li(style="left: 41.7441860465%;")
+			p Round 3
+		li(style="right: 0;")
+			p End
 
 div(class="center")
 
-	h1 McTunes
 	form(class="",ref='uploadForm',action='/proceed',method='post',encType="multipart/form-data",id="myCoolForm")
 
 		div(class="second")
@@ -28,13 +42,13 @@ div(class="center")
 
 
 			table
-				tr
+				tr(class="active")
 					each answer, index in ["Genre","I have never heard of this genre","Dislike Strongly","Dislike Moderately","Dislike a little","Neither like nor dislike","Like a little","Like Moderately","Like Strongly"]
 						th
 							if(index > 0)
-								span(class="red")=""+(index-1)+". "
+								span(class="bold")=""+(index-1)+" - "
 								span=answer
-				each genre in ["Blues", "Classical", "Country", "Dance/Electronica", "Folk","Rap/Hip-Hop","Soul/Funk","Religious", "Alternative", "Jazz", "Rock","Pop","Heavy Metal","Soundtracks/Theme Song"]
+				each genre,genreindex in ["Blues", "Classical", "Country", "Dance/Electronica", "Folk","Rap/Hip-Hop","Soul/Funk","Religious", "Alternative", "Jazz", "Rock","Pop","Heavy Metal","Soundtracks/Theme Song"]
 					tr
 
 						div(class="vertical-align")

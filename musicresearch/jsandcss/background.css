@@ -13,14 +13,20 @@ input[type="radio"]:checked+label{
   color:white;
 } 
 
-
+.test{
+  visibility: hidden;
+}
 
 body {
   background-color: #F5F3EE;
-  line-height: 120%;
 
+
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
     background-image: url("bg.jpg");
     font-family: Lato;
+    font-size: 15px;
    /* background-image: url("bg.jpg");*/
 }
 
@@ -30,7 +36,7 @@ body {
   text-align: left !important;
 }
 body{
-  text-align: center;
+  text-align: left;
 }
 
 label{
@@ -65,13 +71,13 @@ label.unknown{
 }
 
 label{
-  display:block; line-height: 2; 
+  display:block; line-height: 1.5; 
     background-color: white;
 }
 
 
 label.altsize{
-  display:inline-block; line-height: 2; 
+  display:inline-block; line-height: 1.5; 
   padding: 1px 1px 1px 1px;
   width: auto;
     background-color: white;
@@ -106,7 +112,7 @@ th {
 
   border-width: 2px;
 
-    font-size: 1vw;
+    font-size: 0.7vw;
   text-align: right;
   }
 
@@ -158,6 +164,10 @@ div.alternatecolors > div:nth-of-type(even) {
 color: black; 
 }
 
+
+th {
+  font-weight: normal;
+}
 .bold {
   font-weight: bold;
 }
@@ -187,3 +197,86 @@ input[type="radio"]:checked+label .invisible{
   display: block;
 
 } 
+
+
+ol {
+  width: 30%;
+  left: 20px;
+
+}
+
+.hidden {
+  display: none;
+}
+
+.lens-profile-timeline {
+  top:80px;
+  list-style: none;
+  padding: 0;
+  margin: 0px 0 20px;
+  border-bottom: 5px solid black;
+  position: absolute;
+}
+.lens-profile-timeline li {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #39752c;
+  border-radius: 16px;
+  background: #fff;
+  margin-top: -7px;
+}
+.lens-profile-timeline li.active {
+  border: 2px solid red !important;
+}
+.lens-profile-timeline time, .lens-profile-timeline p {
+  left: -27px;
+  top: -40px;
+  position: absolute;
+  width: 70px;
+  text-align: center;
+}
+.lens-profile-timeline time {
+  margin-top: 70px;
+  font-size: 18px;
+}
+.lens-profile-timeline p {
+  margin-top: -0px;
+  font-size: 12px;
+  line-height: 1.1;
+}
+.lens-profile-timeline p:after {
+  content: "";
+  height: 8px;
+  border-left: 1px solid #39752c;
+  position: absolute;
+  bottom: -10px;
+  left: 35px;
+}
+
+
+header {
+  background-color: white;
+  padding-top: 1px;
+  width: 100%;
+}
+
+tr {
+  visibility: hidden;
+}
+
+tr.active {
+  visibility: visible;
+}
+
+h1.title {
+  text-align: center;
+  width: 100%;
+  top: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.center {
+  text-align: center;
+}

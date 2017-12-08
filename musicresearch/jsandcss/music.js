@@ -1,4 +1,8 @@
+function explode(){
+  $(".loader").fadeOut();
+}
 
+setTimeout(explode, 10000);
 
 
 

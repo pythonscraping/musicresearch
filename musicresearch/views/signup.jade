@@ -11,7 +11,10 @@ head
 	link(href='/background.css', rel='stylesheet')
 	script(src="/jquery-3.2.1.min.js")
 
-h1 McTunes 
+
+header
+	h1(class="title")
+		img(src="/mctunes.svg",width="190")
 
 
 
@@ -23,13 +26,7 @@ div(class="center")
 		p Welcome to McTunes!
 
 
-		P Please write down the following code so that if you are interrupted or have to leave the experiment and return later, you can use this code to continue your experiment.
-
-		p Code: 
-			strong=price
-
-		span Please input your code above to continue: 
-		input(type="number",class="form-control number",name="email",value="")
+		input(type="hidden",class="form-control number",name="email",value=price)
 		input(type="hidden",class="form-control",name="password",value=price)
 
 		

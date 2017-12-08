@@ -19,3 +19,21 @@ $('.test').click(function(event){
 
  });
 
+
+$( "input.verify:checked" ).first().parent().parent().addClass("active");
+
+
+
+
+$('input:not(.test)').click(function(event){
+
+  $(this).parent().parent().css("opacity","0.5");
+
+$( "input.verify:checked" ).first().parent().parent().addClass("active");
+
+if ( ! $("input.verify").is(':checked') ){
+  $(".test").fadeIn().css("visibility","visible");
+}
+
+
+   });
