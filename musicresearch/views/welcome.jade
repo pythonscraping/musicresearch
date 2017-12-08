@@ -5,7 +5,7 @@ head
 	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
 	
 	link(rel="stylesheet",href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
-	
+
 	link(href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet")
 	link(href='/background.css', rel='stylesheet')
 	script(src="/allpages.js")
@@ -43,7 +43,7 @@ div(class="center")
 
 	form(class="",ref='uploadForm',action='/proceed',method='post',encType="multipart/form-data",id="myCoolForm")
 
-
+		div(class="second")
 			table
 				tr(class="active")
 					each answer, index in ["Genre","I have never heard of this genre","Dislike Strongly","Dislike Moderately","Dislike a little","Neither like nor dislike","Like a little","Like Moderately","Like Strongly"]
@@ -76,6 +76,7 @@ div(class="center")
 				p Please give your preference for every genre.
 			input(type="button", class="test myButton",value="Confirm Preference")
 
+		br
 		div(class="instructions")
 
 			h3="Thanks for telling us your music preference. "

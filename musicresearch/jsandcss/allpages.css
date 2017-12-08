@@ -5,7 +5,8 @@
 
 body {
 	background-color: #FFCE00;
-    font-family: Lato;
+    
+    font-family: 'Open Sans', sans-serif;
     background-image: url("bg.jpg");
     text-align: center;
 }
