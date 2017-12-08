@@ -25,7 +25,8 @@ body {
   margin-left: 0;
   margin-right: 0;
     background-image: url("bg.jpg");
-    font-family: Lato;
+    
+    font-family: 'Open Sans', sans-serif;
     font-size: 15px;
    /* background-image: url("bg.jpg");*/
 }
