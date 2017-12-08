@@ -2,7 +2,7 @@ function explode(){
   $(".loader").fadeOut();
 }
 
-setTimeout(explode, 0);
+setTimeout(explode, 10000);
 
 
 
@@ -199,7 +199,7 @@ var pause = function() {
 
 var unpause = function() {
   //$("#"+CURRENTLYPLAYED).parent().parent("tr").addClass("playing");
-  
+
   $("tr[value='"+CURRENTLYPLAYED+"']").addClass("playing");
   var v = document.getElementById(CURRENTLYPLAYED);
   v.play();
