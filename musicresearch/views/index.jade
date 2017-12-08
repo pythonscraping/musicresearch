@@ -5,6 +5,9 @@ head
 	script(src="/jquery-3.2.1.min.js")
 	link(href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet")
 	link(href='/index.css', rel='stylesheet')
+
+
+	
  
 
 
@@ -85,7 +88,8 @@ header
 				p End
 
 
-h1(class="title")="McTunes"
+h1(class="title")
+	img(src="/mctunes.svg",width="190")
 
 
 if(false)
@@ -283,7 +287,7 @@ div(class="mainplayer")
 
 
 form(class="abandon playpause",ref='uploadForm',action='/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
-	input(class="abandon myButton",type='submit',value='Quit',onclick="return confirm('Are you sure you want to exit the experiment? All your data will be deleted.');")
+	input(class="abandon myButton",type='submit',value='Quit')
 
 
 input(class="instructions myButton",type='submit',value='Instructions')
@@ -293,50 +297,55 @@ input(class="instructions myButton",type='submit',value='Instructions')
 
 
 div(class="modall")
-	br
-	strong Playlist 
-	br
-
-	h5(class="red") Please sort your playlist by order of preference by drag and dropping songs.
-	ul
-		div(id="columns", class="columns") 
-			each val in listofsongs
-				if (playlist[playlist.findIndex(x => x.id== val._id)])
-					div(id=val._id, class="column container2")
-						li=val.artist+" - "+val.title
-
-
-
-
-	input(class="else myButton nextstep",type='submit',value='Confirm playlist')
-	button(id="sorted", class="myButton modal") Confirm playlist
-
-	div(class="bottom-right red")
-			if(info.playlistMin > 0)
-				p="Please add at least " + info.playlistMin +"  songs in your playlist"
-
-			- if(parseInt(info.songplayedMin) > 0)
-				p="Please play at least " + info.songplayedMin +"  songs."
 
 	div(class="explain")
+		h4 Help
 		p 
 			strong Play
 			span : 
 			span(class="click") click 
-			strong ► 
-			span or 
+			button(class="plylist") 	► 
+			span=" "+"or "
 			span(class="click") double click 
 			span  on song
 		p 
 			strong Add 
 			span to playlist: 
 			span(class="click") click 
-			strong +
+			button(class="plylist") 	+
 		p 
 			strong Remove
 			span : 
 			span(class="click") click 
-			strong ✔
+			button(class="plylist") 	✔
+
+	div(class="borderedPlaylist")
+		br
+		strong Playlist 
+		br
+
+		h5(class="red") Please sort your playlist by order of preference by drag and dropping songs.
+		ul
+			div(id="columns", class="columns") 
+				each val in listofsongs
+					if (playlist[playlist.findIndex(x => x.id== val._id)])
+						div(id=val._id, class="column container2")
+							li=val.artist+" - "+val.title
+
+
+
+
+		input(class="else myButton nextstep",type='submit',value='Confirm playlist')
+		button(id="sorted", class="myButton modal") Confirm playlist
+
+		div(class="bottom-right red")
+				if(info.playlistMin > 0)
+					p="Please add at least " + info.playlistMin +"  songs to your playlist"
+
+				- if(parseInt(info.songplayedMin) > 0)
+					p="Please play at least " + info.songplayedMin +"  songs."
+
+	
 
 
 

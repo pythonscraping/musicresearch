@@ -650,3 +650,18 @@ $('.instructions').click(function(event){
 
 
 check();
+
+
+
+
+
+$('.abandon').click(function(event){ 
+
+
+event.preventDefault();
+
+
+              
+
+  });
+

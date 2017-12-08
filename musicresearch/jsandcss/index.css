@@ -402,13 +402,12 @@ h1 {
 
 .modall {
 
-	border-width: 1px;
-	border-style: solid;
 
  	text-align: center;
-  height: calc(100% - 190px - 4%);
+  height: calc(100% - 100px - 4% );
 	float: left;
-    display: inline; /* Hidden by default */
+      display: flex;
+  flex-direction: column; /* Hidden by default */
     position: relative; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
@@ -584,11 +583,28 @@ ul {
 
 }
 
+
+.explain > h4 {
+	text-align: center;
+}
 .explain {
+	font-size: 90%;
+	border-width: 1px;
+	border-style: solid;
 	text-align: left;
 	padding-left: 10px;
 	bottom: 0;
-	position: absolute;
+
+    margin-bottom: 10px;
+   flex-grow: 0.7;
+}
+
+.borderedPlaylist{
+
+   flex-grow: 6;
+	border-width: 1px;
+	border-style: solid;
+
 }
 
 
@@ -674,7 +690,7 @@ z-index: 110;
   width: 100%;
   height:  80px;
   margin-bottom: 0;
-  padding-bottom: 0;
+  padding-bottom: 20px;
   margin-bottom: 20px;
 }
 
@@ -686,6 +702,7 @@ ol {
 
 
 h1.title{
+	margin-top: 0;
 	position: absolute;
   top: 0;
   left: 0; 
