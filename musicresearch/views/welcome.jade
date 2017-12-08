@@ -27,18 +27,19 @@ header
 		li(style="right: 0;")
 			p End
 
+
+
+div(class="second")
+	span(class="smaller")
+		p Before we start the experiment, please complete 
+			strong STOMP
+			span (Short Test of Music Preference) developed by GozLab at Unverisity of Texas at Austin.
+		p This test has been proved to successfully find out people who have similar music taste.
+		p Please indicate your preference for each of the following genres using the scale provided
+
 div(class="center")
 
 	form(class="",ref='uploadForm',action='/proceed',method='post',encType="multipart/form-data",id="myCoolForm")
-
-		div(class="second")
-			span(class="smaller")
-				p Before we start the experiment, please complete 
-					strong STOMP
-					span (Short Test of Music Preference) developed by GozLab at Unverisity of Texas at Austin.
-				p This test has been proved to successfully find out people who have similar music taste.
-				p Please indicate your preference for each of the following genres using the scale provided
-
 
 
 			table
@@ -68,10 +69,10 @@ div(class="center")
 											span(class="invisible")=""+answer
 										input(class="verify",type="radio",name=genre,id="null",value="", style="display:none",checked="checked")
 			br
+			
 			div(class="filleverything red")
 				p Please give your preference for every genre.
 			input(type="button", class="test myButton",value="Confirm Preference")
-		br
 
 		div(class="instructions")
 
