@@ -6,6 +6,20 @@ setTimeout(explode, 10000);
 
 
 
+
+var recordaction = function(type,content, content2) {
+
+  users = JSON.parse(localStorage.getItem("users") || "[]");
+  users.push({"type": type, "content": content,"content2" : content2, "date": Date.now()});
+  localStorage.setItem("users", JSON.stringify(users));
+  console.log(users);
+}
+
+
+
+recordaction("connected","connected");
+
+
 var CURRENTLYPLAYED = document.getElementsByTagName("audio")[0].id;
 
 
@@ -64,7 +78,7 @@ function updateProgress() {
       value = (100 / v.duration) * v.currentTime;
        progress.style.width = value -2.5  + "%";
    }
-  
+
    var displayedTime = document.getElementById("currentTime");
    var minutes = Math.floor(v.currentTime/60) +"";
    var seconds = Math.floor(v.currentTime % 60) + "";
@@ -109,12 +123,12 @@ console.log(favorites_.length,MINIMUMPLAYLIST);
 //console.log(favorites_.length);
       if (parseInt(localStorage.getItem("songscount")) > MINIMUMSONGPLAYED - 1 && favorites_.length >= MINIMUMPLAYLIST){
         $(".nextstep").css("display", "none");
-        $("#sorted").css("display", "initial");
+        $("#sorted1").css("display", "initial");
       }
 
       else {
         $(".nextstep").css("display", "initial");
-        $("#sorted").css("display", "none");
+        $("#sorted1").css("display", "none");
       }
 }
 
@@ -123,6 +137,7 @@ var play = function(id) {
 
 
 
+  recordaction("play",id);
    
 
 
@@ -193,11 +208,17 @@ var pause = function() {
   $(".playpause.play").css("display", "initial");
   $(".playpause.pause").css("display", "none");
 
+
+
+  recordaction("pause",CURRENTLYPLAYED);
+
 }
 
 
 
 var unpause = function() {
+
+   recordaction("unpause",CURRENTLYPLAYED);
   //$("#"+CURRENTLYPLAYED).parent().parent("tr").addClass("playing");
 
   $("tr[value='"+CURRENTLYPLAYED+"']").addClass("playing");
@@ -236,6 +257,9 @@ document.getElementById('progressBar').addEventListener('click', function (e) {
       v.currentTime = x/350 * v.duration;
     }
     console.log(x, y, window.innerWidth);
+
+
+  recordaction("progress",x);
 });
 
 
@@ -244,10 +268,14 @@ $(document).on("click",'.playlist',function() {
 
 
 
+
+
   check();
 
 
   var whatwasclicked = $( this ).attr("value");
+
+  recordaction("playlist",whatwasclicked);
   var artist = $( this ).attr("artist");
   var title = $( this ).attr("title");
   var htmlstring = 
@@ -296,6 +324,7 @@ $(document).on("click",'.removeplaylist',function() {
   console.log(whatwasclicked);
 
 
+  recordaction("removeplaylist",whatwasclicked);
   $( "#"+whatwasclicked + ".column" ).remove();
 
   check();
@@ -326,6 +355,7 @@ $(document).on("click",'.like',function() {
 
   var whatwasclicked = $( this ).attr("value");
 
+  recordaction("like",whatwasclicked);
 
   console.log(whatwasclicked);
   var what = $( this );
@@ -352,6 +382,7 @@ $(document).on("click", '.unlike',function() {
   var what = $( this );
   console.log(whatwasclicked);
 
+  recordaction("unlike",whatwasclicked);
   var data = {};
           data.id = whatwasclicked;
           data.isLiked = false;
@@ -373,6 +404,11 @@ $(document).on("click", '.scores >span',function() {
   var scoreselected = $( this ).attr("id").split("star")[1].trim();
   $( this ).parent("div").removeClass().addClass("score"+scoreselected).addClass("scores");
   var idselected = $( this ).attr("value");
+
+
+
+  recordaction("scores",idselected, scoreselected);
+
   console.log(scoreselected, idselected);
 
   var data = {};
@@ -582,7 +618,10 @@ $(document).on("mouseleave",'.removeplaylist',function(){
   $('#sorted').click(function(){
     console.log("hey");
 
-    if (confirm('Are you sure you want to submit your playlist which is ordered by your preferences ?')) {
+    $(".loader").fadeIn();
+    users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    if (true) {
     var favorites = [];
     $('#columns > .column').each(function(){ 
     favorites.push($(this).attr("id"));
@@ -592,7 +631,7 @@ $(document).on("mouseleave",'.removeplaylist',function(){
       $('#sorted').css('display', 'none');
       $('.nextstep').css('display', 'none');
 
-    $.post( "favorites", { favorites: favorites} , function(response){
+    $.post( "favorites", { favorites: favorites, special: users} , function(response){
                           console.log("something received");
                           window.location.href = response.redirect;
                       });
@@ -667,3 +706,36 @@ event.preventDefault();
 
   });
 
+
+$('.preconfirm').click(function(event){
+  event.preventDefault();
+
+  $('.confirmation').css('visibility', 'visible');
+
+});
+
+
+
+$('.unsorted').click(function(event){
+  event.preventDefault();
+
+  $('.confirmation').css('visibility', 'hidden');
+
+});
+
+
+$('.abandon').click(function(event){
+  event.preventDefault();
+
+  $('.confirmation2').css('visibility', 'visible');
+
+});
+
+
+
+$('.noquit').click(function(event){
+  event.preventDefault();
+
+  $('.confirmation2').css('visibility', 'hidden');
+
+});

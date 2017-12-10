@@ -25,7 +25,7 @@ $( "input.verify:checked" ).first().parent().parent().addClass("active");
 
 
 
-$('input:not(.test)').click(function(event){
+$('input:not(.test):not(.a)').click(function(event){
 
   $(this).parent().parent().css("opacity","0.5");
 
@@ -37,3 +37,17 @@ if ( ! $("input.verify").is(':checked') ){
 
 
    });
+
+
+
+$('.gotonext').click(function(event){ 
+
+  $('.hidden2').css("visibility","visible");
+
+});
+
+$('.ungotonext').click(function(event){ 
+
+  $('.hidden2').css("visibility","hidden");
+
+});

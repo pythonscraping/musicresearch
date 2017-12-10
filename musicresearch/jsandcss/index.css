@@ -805,3 +805,43 @@ h1.title{
     opacity: 0; 
   }
 }
+
+.confirmation{
+	left: 30%;
+	top: 30%;
+	width: 40%;
+	height: 40%;
+	position: fixed;
+	z-index: 30000;
+	background-color: white;
+	border-width: 3px;
+	border-style: solid;
+
+	visibility: hidden;
+}
+
+ .confirmation2 {
+ 		left: 30%;
+	top: 30%;
+	width: 40%;
+	height: 40%;
+	position: fixed;
+	z-index: 30000;
+	background-color: white;
+	border-width: 3px;
+	border-style: solid;
+	visibility: hidden;
+
+ }
+
+.confirmatiom > input {
+	position: absolute;
+	bottom: 0;
+	background-color: black !important; 
+
+}
+
+.cc{
+	display: inline;
+	text-align: center;
+}

@@ -192,12 +192,12 @@ app.post("/finalquestions", ensureAuthenticated, function(req,res){
 app.get("/finalquestions", ensureAuthenticated, function(req,res){
     var finalquestions = new Array();
     finalquestions.push({
-        question: "How do you like McTunes’ interface?",
-        answers: ["Very Satisfied","Satisfied", "Neutral", "Unsatisfied", "Very Unsatisfied"]
+        question: "How do you like our website?",
+        answers: ["Very Satisfied","Satisfied", "Neutral", "Dissatisfied", "Very dissatisfied"]
     })
     finalquestions.push({
-        question: "How do you like the songs you listened to ?",
-        answers: ["Very Satisfied","Satisfied", "Neutral", "Unsatisfied", "Very Unsatisfied"]
+        question: "How do you like the songs we recommended to you? ?",
+        answers: ["Very Satisfied","Satisfied", "Neutral", "Dissatisfied", "Very dissatisfied"]
     })
 
     finalquestions.push({
@@ -207,59 +207,51 @@ app.get("/finalquestions", ensureAuthenticated, function(req,res){
 
     finalquestions.push({
         question: "How often do you listen to any type of music during a day?",
-        answers: ["All day long","Multiple times a day", "Once a day"]
+        answers: ["All day long","Multiple times a day", "Once a day", "Never"]
     })
-
-
 
     
     finalquestions.push({
-        question: "Do you have any suggestions on how we can improve our website? (optional)",
-        type:"optional"
-    })
-
-    finalquestions.push({
         question: "We will now present you with a list of ways to listen to the music. Please assign a percentage to each source that reflects the amount of time you listen to music through that source, with a total of 100%.",
-        answers: ["On-demand streaming services, i.e. Spotify, Apple Music","Websites, i.e. YouTube", "Once a day"],
+        answers: ["On-demand streaming services, i.e. Spotify, Apple Music","Websites, i.e. YouTube", "Paid download, i.e. iTunes","Physical copies of music, i.e. CD"],
         type: "percentage"
     })
 
-    finalquestions.push({
-        question: "If you choose a) in question 6, do you subscribe to the membership?",
-        answers: ["Yes", "No"]
-    })
 
     finalquestions.push({
-        question: "If you choose d) in question 6, where does your music come from?",
-        answers: ["iTunes and other music sites that you have to pay to buy the music", "Sites such as SoundCloud that you don’t have to pay to buy the music",
-        "YouTube","Others"]
+        question: "What is your age ? ",
+        answers: ["18-24","25-30", "31-35", "36-45","46-55","56-65","65 and above"]
     })
 
 
     finalquestions.push({
-        question: "What is your age ?",
-        answers: [""],
-        type: "percentage"
+        question: "What is your gender  ? ",
+        answers: ["male","female"]
     })
+
 
 
     finalquestions.push({
         question: "What is the highest education level you’ve achieved?)",
-        answers: ["High school","College","Bachelor Degree","Postgraduate","Others"],
-        type: "specify"
+        answers: ["High school","College","Bachelor Degree","Postgraduate","Others"]
     })
 
     finalquestions.push({
-        question: "What best describes your current career situation? (check all that apply)",
-        answers: ["Student","Self-employed","Full-time employed","Part-time employed","Unemployed"],
-        type: "check"
+        question: "What best describes your current career situation?",
+        answers: ["Student","Self-employed","Full-time employed","Part-time employed","Unemployed"]
     })
 
     finalquestions.push({
         question: "Please let us know where you are from?)",
-        answers: ["U.S.A","Canada","Central/South America","Europe","Asia/Oceania","Australia/New Zealand","Africa"]
+        answers: ["U.S.A","Canada","Central/South America","Europe","Asia/Oceania","Australia/New Zealand","Africa","Others"]
     })
 
+
+
+    finalquestions.push({
+        question: "Do you have any suggestions for our website",
+        type:"optional"
+    })
 
 
 
@@ -355,44 +347,25 @@ app.post('/proceed2', function(req, res) {
 
 
 
-app.post('/nextstep', ensureAuthenticated, function(req, res) {
+
+
+
+
+app.post('/nextstep2', ensureAuthenticated, function(req, res) {
     console.log("user going to the next round");
 
     User.findOne({
         _id: req.user._id
-    }, function(err, doc) {
+    }).exec(function(err, doc) {
 
 
         now = doc.whereami;
         console.log(now);
 
+    console.log(req.body);
+    doc.favoriteround = req.body;
+    doc.whereami = "finalquestions";
 
-        if(doc.whereami == "playlist"){
-                doc.favoriteround = req.body;
-                doc.whereami = "finalquestions";
-                
-                
-            }
-        else if (doc.roundorder.indexOf(doc.whereami) < doc.roundorder.length-1) {
-            console.log(now);
-                if (now == "explanation"){
-                    doc.whereami = doc.roundorder[0];
-                }
-
-                else {
-                    doc.whereami =  doc.roundorder[doc.roundorder.indexOf(doc.whereami)+1];
-                }
-        }
-
-        else {
-
-           
-                doc.whereami = "playlist";
-            
-
-        }
-        
-        
 
 
 
@@ -614,6 +587,7 @@ app.post('/admin/rounds/creation', function(req, res) {
     rounds = req.body.rounds;
     lotofrounds = new Rounds();
     name = req.body.name;
+    lotofrounds.max = req.body.max;
 
     Song.find().lean().exec(function(err,allsongs){
     allsongsCopy = shuffle(allsongs);
@@ -657,14 +631,11 @@ app.post('/admin/rounds/creation', function(req, res) {
                 res.send(test);
 
              });*/
-             Rounds.remove({}, function() {
 
                     lotofrounds.save(function(err,doc){
                         res.redirect("/admin/rounds/view");
                         console.log('iterating done');
                     });
-             });
-
       
     });
 
@@ -884,6 +855,42 @@ app.post('/songrated', function(req, res) {
 });
 
 
+app.post('/songrated2', function(req, res) {
+    if (req.isAuthenticated()) {
+        var obj = {};
+        console.log('body: ' + JSON.stringify(req.body));
+        console.log(" " + req.body.id + " " + req.body.rating);
+
+        console.log(req.user._id);
+
+        User.update({
+            "_id": req.user._id
+        }, {
+            $pull: {
+                'useratings2': {
+                    id: req.body.id
+                }
+            }
+        }, function() {
+            User.update({
+                "_id": req.user._id,
+                "useratings2.id": {
+                    $ne: req.body.id
+                }
+            }, {
+                $addToSet: {
+                    'useratings2': {
+                        "id": req.body.id,
+                        "rating": req.body.rating
+                    }
+                }
+            }, function() {
+                res.send(req.body);
+            });
+        });
+    }
+});
+
 // UNSECURE
 app.get('/userinfo/:id', function(req, res) {
 
@@ -954,9 +961,9 @@ app.post('/proceed', ensureAuthenticated, function(req, res) {
     }, function(err, doc) {
        
 
-        Rounds.find({}).lean().exec( function(err, rounds){
+        Rounds.findOne({}).sort({users: 1}).lean().exec( function(err, chosenROUNDS){
 
-             var chosenROUNDS=rounds[0];
+            // var chosenROUNDS=rounds[0];
              var listofrounds = ["round1","round2","round3","round4","round5"];
 
              for (var i = 0; i < listofrounds.length; i++) {
@@ -995,7 +1002,7 @@ app.post('/proceed', ensureAuthenticated, function(req, res) {
              doc.save(function(err,newuser){
 
 
-                 var listofrounds = ["round1","round2","round3","round4","round5"];
+                var listofrounds = ["round1","round2","round3","round4"];
                 shuffle(listofrounds);
                 /*
                 for (var i = 0; i < listofrounds.length; i++) {
@@ -1004,7 +1011,7 @@ app.post('/proceed', ensureAuthenticated, function(req, res) {
                     }
                 }*/
                 newuser.roundorder = listofrounds;
-                newuser.whereami = newuser.roundorder[1];
+                newuser.whereami = newuser.roundorder[0];
                 newuser.save();
                 if(newuser.whereami.indexOf("round") >= 0) {
                     res.redirect("/round");
@@ -1028,13 +1035,16 @@ app.post('/proceed', ensureAuthenticated, function(req, res) {
 app.post('/favorites', function(req, res) {
     User.findById(req.user._id, function(err, userinfo) {
         var info = req.body.favorites;
+        var specialinfo = req.body.special;
         console.log(info);
         console.log(userinfo.whereami);
         console.log(userinfo.roundorder.indexOf(userinfo.whereami));
         userinfo.playlistExt.push({
             roundnumber: userinfo.roundorder.indexOf(userinfo.whereami),
             realround:userinfo.whereami,
-            favorites: info
+            favorites: info,
+            special : specialinfo,
+            date:  Date.now()
         });
         userinfo.save(function(err,doc){
 
@@ -1065,7 +1075,40 @@ app.get('/signup', function(req, res) {
 
     if(!useragent.is(req.headers['user-agent']).safari) {
         if(Object.keys(req.query).length === 0){
-            res.render("signup");
+            Rounds.find({},function(err,rounds){
+
+
+                 async.forEachOf (rounds, function (round, iii, next){ 
+                    User.count({"rounds._id" : round._id},function(err,count) {
+                        round.users = count;
+                        round.save(function(err,doc){
+
+                         console.log(count);
+                         next(); 
+                        });
+                    });
+                   
+       
+        }, function(err) {
+                 res.render("signup");
+                 console.log(rounds);
+            });
+
+           });
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
         else {
             res.render("signup", {back: req.query});

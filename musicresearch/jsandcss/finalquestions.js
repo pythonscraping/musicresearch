@@ -26,6 +26,21 @@ $('.finalquestions').on("submit",function(event){
             }
           });
 
+          $("option.unchecked").each(function() {
+            console.log("ehey")
+              $(this).parent().css( "background-color", "white" );
+
+              });
+
+          $("option.unchecked:selected").each(function() {
+            console.log("ehey")
+              canproceed=false;
+              $(this).parent().css( "background-color", "#ff6666" );
+
+              });
+
+
+
       console.log(canproceed);
 
   if ( ! $("input.verify").is(':checked') && canproceed){

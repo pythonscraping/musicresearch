@@ -1,46 +1,88 @@
 head
-	
+
+	title McTunes
+	link(rel="shortcut icon" href="https://image.freepik.com/free-icon/black-music-icon_318-9277.jpg")
 	link(href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet")
 	link(href='/allpages.css', rel='stylesheet')
-	script(src="/allpages.js")
+	script(src="/jquery-3.2.1.min.js")
+
+
+
+
+header
+	ol(class="lens-profile-timeline")
+		if(true)
+			li(class="",style="left: 0;")
+				p Music Preference
+			li(class="", style="left: 21.7441860465%;")
+				p Round 1
+			li(class="",style="left: 34.7441860465%;")
+				p Round 2
+			li(style="left: 47.7441860465%;")
+				p Round 3
+			li(style="left: 60.7441860465%;")
+				p Round 4
+			li(class="active",style="left: 75.7441860465%;")
+			li(style="right: 0;")
+				p End
+
+
+h1(class="title")
+	img(src="/mctunes.svg",width="190")
 
 h1="Your playlist"
 
 
-p Please find below the links to the songs your saved from your playlist
+p Below are the songs you have added to your playlist. Please rate them based on your preference. You can click on the play button next to the song name if you want to listen again.
 
 
+if(true)
+	input(type="hidden", id="playlistMin", value=0)
+	input(type="hidden", id="songplayedMin", value=0)
+	input(type="hidden", id="durationMin", value=0)
+
+div(class="lastplaylist")
+	each play in playlistExt
+		div(class="userplaylist")
+			h3(class="center")="Round " + (play.roundnumber+1)
+			ul
+				each idd in play.favorites
+					each song in playlist
+						if(song._id==idd)
+							audio(id=song._id,name=song.title)
+									source(src = song.path ,type="audio/mpeg")
+							li
+								button(onclick="play('" + song._id + "')",class="playbutton")="►"+" "
+								span=" "+song.title
+								div(class="score0 scores")
+									span(id="astar1",value=song._id) ★ 
+									span(id="bstar1",value=song._id) ☆ 
+									span(id="astar2",value=song._id) ★ 
+									span(id="bstar2",value=song._id) ☆ 
+									span(id="astar3",value=song._id) ★ 
+									span(id="bstar3",value=song._id) ☆ 
+									span(id="astar4",value=song._id) ★ 
+									span(id="bstar4",value=song._id) ☆ 
+									span(id="astar5",value=song._id) ★ 
+									span(id="bstar5",value=song._id) ☆
+								br
 
 
-
-
-
-each play in playlistExt
-	div(class="userplaylist")
-		h3="Round " + play.roundnumber
-		ul
-			each idd in play.favorites
-				each song in playlist
-					if(song._id==idd)
-						li
-							a(target="_blank",href="https://www.jamendo.com/search?q"+ song.title)=song.title
-							br
-
-
-br
-br 
-br
 
 
 div(class="bye")
 	br
-	br
-	form(class="abandon playpause",ref='uploadForm',action='/nextstep',method='post',encType="multipart/form-data",id="myCoolForm")
+	form(class="abandon",ref='uploadForm',action='/nextstep2',method='post',encType="multipart/form-data",id="myCoolForm")
 		span What is your favorite round ? 
-		select
+		select(name="favround")
 			each round in ["round1","round2","round3","round4"]
 				option(name="favround",value=round)=round
 		br
 		br
 		br
 		input(class="proceed",type='submit',value='Confirm favorite round')
+
+
+
+
+script(src="/allpages.js")

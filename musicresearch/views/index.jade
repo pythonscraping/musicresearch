@@ -20,13 +20,13 @@ div(class="loader")
 			div(class="sk-cube2 sk-cube")
 			div(class="sk-cube3 sk-cube")
 			div(class="sk-cube4 sk-cube")
-		p Finding music that best match your preferences.
+		p Thanks for telling us your music preference! We will now try to find the user who has similar taste to you. 
 		p Please hold on.
 
 
 header
 	ol(class="lens-profile-timeline")
-		if(round==1)
+		if(round==0)
 			li(class="",style="left: 0;")
 				p Music Preference
 			li(class="active", style="left: 21.7441860465%;")
@@ -38,10 +38,9 @@ header
 			li(style="left: 60.7441860465%;")
 				p Round 4
 			li(style="left: 75.7441860465%;")
-				p Final survey
 			li(style="right: 0;")
 				p End
-		else if (round==2)
+		else if (round==1)
 			li(class="",style="left: 0;")
 				p Music Preference
 			li(class="", style="left: 21.7441860465%;")
@@ -53,10 +52,9 @@ header
 			li(style="left: 60.7441860465%;")
 				p Round 4
 			li(style="left: 75.7441860465%;")
-				p Final survey
 			li(style="right: 0;")
 				p End
-		else if (round==3)
+		else if (round==2)
 			li(class="",style="left: 0;")
 				p Music Preference
 			li(class="", style="left: 21.7441860465%;")
@@ -68,10 +66,9 @@ header
 			li(style="left: 60.7441860465%;")
 				p Round 4
 			li(style="left: 75.7441860465%;")
-				p Final survey
 			li(style="right: 0;")
 				p End
-		else if (round==4)
+		else if (round==3)
 			li(class="",style="left: 0;")
 				p Music Preference
 			li(class="", style="left: 21.7441860465%;")
@@ -83,7 +80,6 @@ header
 			li(class="active",style="left: 60.7441860465%;")
 				p Round 4
 			li(style="left: 75.7441860465%;")
-				p Final survey
 			li(style="right: 0;")
 				p End
 
@@ -283,12 +279,15 @@ div(class="mainplayer")
 
 
 
+input(class="abandon myButton",type='button',value='Quit')
 
 
-
-form(class="abandon playpause",ref='uploadForm',action='/abandon',method='post',encType="multipart/form-data",id="myCoolForm")
-	input(class="abandon myButton",type='submit',value='Quit')
-
+div(class="confirmation2")
+	p Do you want to abandon the experiment ? All your data will be deleted.
+	form(class="playpause",ref='uploadForm',action='/abandon',method='post',encType="multipart/form-data",id="myCoolForm", style="display: inline; text-align: center;")
+		div
+			input(class="myButton cc",type='submit',value='Yes')
+			input(class="noquit myButton cc",type='button',value='No')
 
 input(class="instructions myButton",type='submit',value='Instructions')
 
@@ -324,7 +323,6 @@ div(class="modall")
 		strong Playlist 
 		br
 
-		h5(class="red") Please sort your playlist by order of preference by drag and dropping songs.
 		ul
 			div(id="columns", class="columns") 
 				each val in listofsongs
@@ -335,8 +333,12 @@ div(class="modall")
 
 
 
-		input(class="else myButton nextstep",type='submit',value='Confirm playlist')
-		button(id="sorted", class="myButton modal") Confirm playlist
+		input(id="sorted1",class="myButton preconfirm modal else",type='button',value='Confirm playlist')
+		input(class="else myButton nextstep",type='button',value='Confirm playlist')
+		div(class="confirmation")
+			p Have you ranked the songs according to your preference? If not, please drag and drop the songs.
+			button(id="sorted", class="myButton") Yes
+			input(class="myButton unsorted",type='button',value='Cancel')
 
 		div(class="bottom-right red")
 				if(info.playlistMin > 0)

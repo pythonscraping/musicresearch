@@ -12,32 +12,35 @@ head
 
 
 
+
 header
-
-	h1(class="title")
-		img(src="/mctunes.svg",width="190")
-
 	ol(class="lens-profile-timeline")
-		li(class="active",style="left: 0;")
-			p Music Preference
-		li(style="left: 21.7441860465%;")
-			p Round 1
-		li(style="left: 31.7441860465%;")
-			p Round 2
-		li(style="left: 41.7441860465%;")
-			p Round 3
-		li(style="right: 0;")
-			p End
+		if(true)
+			li(class="active",style="left: 0;")
+				p Music Preference
+			li(class="", style="left: 21.7441860465%;")
+				p Round 1
+			li(class="",style="left: 34.7441860465%;")
+				p Round 2
+			li(style="left: 47.7441860465%;")
+				p Round 3
+			li(style="left: 60.7441860465%;")
+				p Round 4
+			li(class="",style="left: 75.7441860465%;")
+			li(class="",style="right: 0;")
+				p End
+h1(class="title")
+	img(src="/mctunes.svg",width="190")
+
 
 
 
 div(class="second")
 	span(class="smaller")
-		p Before we start the experiment, please complete 
-			strong STOMP
-			span (Short Test of Music Preference) developed by GozLab at Unverisity of Texas at Austin.
-		p This test has been proved to successfully find out people who have similar music taste.
-		p Please indicate your preference for each of the following genres using the scale provided
+		p Before we start the task, please complete STOMP(Short Test of Music Preference) developed by GozLab at Unverisity of Texas at Austin. This test has been proved to successfully find out people who have similar music taste. 
+		p It is very important for you to indicate your true music preferences as we will use this information to match  you with another user who has similar music preference as you, which will determine the amount of extra bonus you will get.
+		p Please indicate your preference for each genre by clicking using the scale provided. 
+
 
 div(class="center")
 
@@ -83,7 +86,13 @@ div(class="center")
 
 			if(info)
 				p!=info.instructions
-			input(class="proceed myButton",type='submit',value='Next',onclick="return confirm('You agree that you have read and understood the research purposes.');")
+			input(class="gotonext myButton a",type='button',value='Next')
+			div(class="hidden2")
+				p You agree that you have read and understood the purposes of the task
+				br
+				br
+				input(class="proceed myButton a",type='submit',value='Yes')
+				input(class="gotonext myButton a ungotonext",type='button',value='Cancel')
 
 
 		script(src="/survey.js")

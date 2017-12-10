@@ -14,4 +14,6 @@ form(ref='uploadForm',id='uploadForm',action='/admin/rounds/creation',method='po
 			select(name='rounds')
 				each scenario in scenarios
 					option(value=scenario._id,name=round)=scenario.name
+	span How many participants ? 
+	input(type="number",name="max")
 	input(type='submit',value='Create set of rounds')

@@ -26,7 +26,9 @@ var Songsaved = mongoose.Schema({
 var Roundplaylist = mongoose.Schema({
     roundnumber: Number,
     realround: String,
-    favorites: [String]
+    favorites: [String],
+    special : mongoose.Schema.Types.Mixed,
+    date : Date
 });
 
 
@@ -41,6 +43,7 @@ var userSchema = mongoose.Schema({
     isAdmin: Boolean,
     songsLiked: [Songliked],
     useratings: [Songrated],
+    useratings2: [Songrated],
     playlist: [Songsaved],
     scenario: String,
     whereami: {

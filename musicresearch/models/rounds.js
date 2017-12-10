@@ -9,7 +9,12 @@ var rounds = mongoose.Schema({
     round2 : Round.schema,
     round3 : Round.schema,
     round4 : Round.schema,
-    round5 : Round.schema
+    round5 : Round.schema,
+    max: Number,
+    users: {
+        type: Number,
+        default: 0
+    } 
 });
 
 
