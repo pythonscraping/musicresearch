@@ -49,6 +49,13 @@ var findSongInformation = function(err, userinfo, req, res) {
             })
         }
 
+
+        if (reverseSortedPopularity == "on") {
+            listofsongs.sort(function(a, b) {
+                return a.popularity - b.popularity;
+            })
+        }
+
         sortedLikes = userinfo.sortedLikes;
         if (sortedLikes == "on") {
             listofsongs.sort(function(a, b) {
@@ -172,6 +179,12 @@ exports.mainOld = (req,res) => {
                     })
                 }
 
+                  if (reverseSortedPopularity == "on") {
+            listofsongs.sort(function(a, b) {
+                return a.popularity - b.popularity;
+            })
+        }
+
                 sortedLikes = userinfo.sortedLikes;
                 if (sortedLikes == "on") {
                     listofsongs.sort(function(a, b) {
@@ -273,6 +286,13 @@ exports.main = (req,res) => {
                     listofsongs.sort(function(a, b) {
                         return b.popularity - a.popularity;
                     })
+                }
+
+                reverseSortedPopularity = userinfo.reverseSortedPopularity;
+                if (reverseSortedPopularity == "on") {
+                     listofsongs.sort(function(a, b) {
+                return a.popularity - b.popularity;
+                      })
                 }
 
                 sortedLikes = userinfo.sortedLikes;

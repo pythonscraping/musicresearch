@@ -17,6 +17,7 @@ table(id="myTable")
 		th sortedPopularity
 		th sortedLikes
 		th displayRatingsTotal
+		th reverseSortedPopularity
 
 
 		each scenario in scenarios
@@ -34,6 +35,6 @@ table(id="myTable")
 				td(class=scenario.sortedPopularity)=scenario.sortedPopularity
 				td(class=scenario.sortedLikes)=scenario.sortedLikes
 				th(class=scenario.displayRatingsTotal)=scenario.displayRatingsTotal
-
+				th(class=scenario.reverseSortedPopularity)=scenario.reverseSortedPopularity
 
 script(src="/scenarioVisu.js")

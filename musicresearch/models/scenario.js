@@ -41,6 +41,11 @@ var scenarioSchema = mongoose.Schema({
     sortedLikes: {
         type: String,
         default: "off"
+    },
+
+    reverseSortedPopularity: {
+        type: String,
+        default: "off"
     }
 
 });
