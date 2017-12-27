@@ -8,6 +8,14 @@ th:hover {
 }
 
 
+.svg {
+	width: 200%;
+	margin-left: -50%;
+  }
+  
+  .svgimg {
+	width: 100%;
+  }
 .loader {
 
 	background-color: white;

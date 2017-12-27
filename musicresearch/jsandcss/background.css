@@ -4,11 +4,7 @@
 @import url(//fonts.googleapis.com/css?family=Lato:300,400,700);
 
 input[type="radio"]:checked+label{ 
-  background-color: green;
-
-  -webkit-transition: background-color 1000ms linear;
-  -ms-transition: background-color 1000ms linear;
-  transition: background-color 1000ms linear;
+  background-color: black;
   user-select: none;
   color:white;
 } 
@@ -41,8 +37,7 @@ body{
 }
 
 label{
-  background-color: white;
-
+  background-color:  rgba(0, 0, 0, 0);
   border-width: 1px;
   border-style: solid;
 }
@@ -73,7 +68,6 @@ label.unknown{
 
 label{
   display:block; line-height: 1.5; 
-    background-color: white;
 }
 
 
@@ -108,6 +102,11 @@ td,th{
 th {
   border-right-style: solid;
 }
+
+
+tr:nth-child(even) {background: #CCC}
+tr:nth-child(odd) {background: white}
+
 .vertical-align {
   width: 100%;
 
@@ -324,4 +323,13 @@ h1.title{
   visibility: hidden;
 
 
+}
+
+.svg {
+  width: 200%;
+  margin-left: -50%;
+}
+
+.svgimg {
+  width: 100%;
 }
